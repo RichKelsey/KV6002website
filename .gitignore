@@ -1,5 +1,7 @@
 # ignore database credentials
 credentials.php
+# ignore log files
+*.log
 
 StartServer.bat
 admin.html
