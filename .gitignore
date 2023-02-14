@@ -1,2 +1,5 @@
 # ignore database credentials
 credentials.php
+
+StartServer.bat
+admin.html
