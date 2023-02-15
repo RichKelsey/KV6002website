@@ -17,9 +17,7 @@ It requires that you also define the following variables:
 - ``username``: the username
 - ``pasword``: the password for the user 
 
-## Functions
-
-### db_connect
+## db_connect
 
 ```php
 db_connect(): PDO|null
@@ -28,16 +26,16 @@ db_connect(): PDO|null
 ``db_connect()`` contains is wrapper to create the php PDO class, handling
 credentials and errors. 
 
-#### Parameters
+### Parameters
 
 This function has no parameters.
 
-#### Return Values
+### Return Values
 
 If connection is successful it returns an instance of the PDO class, or null on
 failure.
 
-### db_getTableNames
+## db_getTableNames
 
 ```php
 db_getTableNames(PDO $dbh): void
@@ -46,12 +44,12 @@ db_getTableNames(PDO $dbh): void
 This function may mostly be temporary, only to test the connection to database
 during development.
 
-#### Parameters
+### Parameters
 
 **dbh**
 
-This function takes in a PDO instance as a handle to to the database.
+- This function takes in a PDO instance as a handle to to the database.
 
-#### Return Values
+### Return Values
 
 This function doesn't return anything.

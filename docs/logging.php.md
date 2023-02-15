@@ -5,9 +5,7 @@
 Logging writes to ``php.log`` in the project root if the DEBUG constant is not
 defined.
 
-## Functions
-
-### log_print
+## log_print
 
 ```php
 log_print(string $string): void
@@ -15,17 +13,17 @@ log_print(string $string): void
 
 Logs a normal message.
 
-#### Parameters
+### Parameters
 
 **string**
 
-The string for the log message.
+- The string for the log message.
 
-#### Return Values
+### Return Values
 
 This function doesn't return anything.
 
-### log_error
+## log_error
 
 ```php
 log_error(string $string): void
@@ -36,13 +34,13 @@ message.
 
 This function calls the log_print message.
 
-#### Parameters
+### Parameters
 
 **string**
 
-The string for the error message.
+- The string for the error message.
 
-#### Return Values
+### Return Values
 
 This function doesn't return anything.
 
