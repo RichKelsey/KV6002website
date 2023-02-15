@@ -2,6 +2,9 @@
 credentials.php
 # ignore log files
 *.log
+# ignore runtime generated files
+ProcessingOutput.txt
+img/posts/*
 
 StartServer.bat
 admin.html
