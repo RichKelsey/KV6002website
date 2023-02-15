@@ -13,34 +13,33 @@
 		<?php 
 			//include 'connection.php';
 			//write entered values into variables to later display
-			require_once "credentials.php";
-			try 
-			{
-				$dbh = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-				$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-				
-				//display Interface for creating a post
-				//iframe is to not redirect the user from the dashboard when they submit the form
-				echo '
-				
+			//require_once "credentials.php";
+
+			include_once __DIR__ . "/../php/db_connection.php";
+			$dbh = db_connect();
+
+			if (!$dbh) die("Can't connect to database");
+
+			echo '
+
 				<iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
 
 
 				<button onclick="PostInterface()">New Post</button>
-				
+
 				<div id="CreatePost" style="display:none">
 					<form action="ProcessUpload.php" method="post" enctype="multipart/form-data" target="dummyframe">
 						<br>
 						<label for="Name">Username:</label>
 						<input type="text" id="Name" name="Name">
-		
+
 						<label for="Group">Group ID:</label>
 						<input type="number" id="Group" name="Group"><br><br>
-		
+
 						<label for="file" style="cursor: pointer;">Upload Image (optional)</label>
 						<input type="file"  accept="image/*" name="Image" id="Image"  onchange="loadFile(event)"><br>
 						<img id="output" width="200" /><br><br>
-		
+
 						<label for="Post">Post:</label>
 						<input type="text" id="Text" name="Text"><br><br>
 						<input type="submit" value="Submit" id="Submit" onclick="setTimeout(DisplayOutput,500)">
@@ -49,14 +48,6 @@
 				<div id="OutputFromForm">
 				<p>xd</p>
 				</div>';
-		
-
-			} catch (PDOException $e) 
-			{
-				die("Error!: " . $e->getMessage() . "<br/>");
-			}
-			
-
 		?>
 		
 		<script src="https://code.jquery.com/jquery-3.6.3.min.js" 
