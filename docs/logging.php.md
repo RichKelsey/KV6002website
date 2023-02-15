@@ -19,18 +19,18 @@ The below example logs a normal message if the database connection is
 successful, and an error message if not.
 
 ```php
-	try {
-		$dbh = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-		$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+try {
+	$dbh = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+	$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-		// Log normal message
-		log_print("Database connection was successful.");
-		return $dbh;
-	} catch (PDOException $e) {
+	// Log normal message
+	log_print("Database connection was successful.");
+	return $dbh;
+} catch (PDOException $e) {
 
-		// Log an error
-		log_error("Error!: " . $e->getMessage() . "<br>");
-	}
+	// Log an error
+	log_error("Error!: " . $e->getMessage() . "<br>");
+}
 ```
 
 ## log_print
