@@ -1,0 +1,23 @@
+#postLayout{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-auto-columns: minmax(min-content, max-content);
+    grid-auto-rows: minmax(min-content, max-content);
+    margin: 15px;
+}
+
+.post{
+    border: 3px solid rgb(0,0,0); 
+    margin: 10px; 
+    padding: 7px; 
+    background-color: rgb(240,240,240);
+    transition: 0.3s;
+}
+
+.post :is(h1,h2,h3,h4,h5) {
+    margin: 0px 0px 0px 0px;
+}
+
+.post:hover{
+    background-color: rgb(225,225,225);
+}
