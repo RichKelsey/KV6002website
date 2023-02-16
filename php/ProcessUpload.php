@@ -1,5 +1,6 @@
 <?php 
     $target_dir = "../img/posts/";
+    $avatar_dir = "../img/avatars/";
     $myfile = fopen("ProcessingOutput.txt", "w") or die("Unable to open file!");
     $FileUploaded = 1;
 
@@ -23,26 +24,14 @@
         exit();
     }
 
-    //Retrieving values submited in admin.php
-    $username =     filter_has_var(INPUT_POST, 'Name')?     $_POST['Name'] : null;
-    $groupID =      filter_has_var(INPUT_POST, 'Group')?    $_POST['Group'] : null;
-    $image =        filter_has_var(INPUT_POST, 'Image')?    $_POST['Image'] : null;
-    $directorID =   filter_has_var(INPUT_POST, 'Text')?     $_POST['Text'] : null;
-
-    $sqlInsert = "INSERT INTO p_products (productName, description, categoryID, price) 
-              VALUES (:productName, :description, :categoryID, :price)";
-    $stmt = $dbConn->prepare($sqlInsert); 
-    $stmt->execute(array(':productName' => $productName, 
-                        ':description' => $description, 
-                        ':categoryID' => $categoryID,
-                        ':price' => $price));
 
 
 
-    $target_file = $target_dir . basename($_FILES["Image"]["name"]);
+    $target_file_post = $target_dir . basename($_FILES["Image"]["name"]);
+
     $uploadOk = 1;
 
-    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+    $imageFileType = strtolower(pathinfo($target_file_post,PATHINFO_EXTENSION));
 
 
 
@@ -66,7 +55,7 @@
     }
 
     // Check if image already exists
-    // if (file_exists($target_file) && $FileUploaded == 1) 
+    // if (file_exists($target_file_post) && $FileUploaded == 1) 
     // {
     //     echo '<p name="exists"> Sorry, image already exists. </p><br>';
     //     $txt = "<p>Sorry, image already exists.</p><br>";
@@ -103,7 +92,7 @@
     } 
     else 
     {
-        if (move_uploaded_file($_FILES["Image"]["tmp_name"], $target_file)) {
+        if (move_uploaded_file($_FILES["Image"]["tmp_name"], $target_file_post)) {
         echo "The image ". htmlspecialchars( basename( $_FILES["Image"]["name"])). " has been uploaded.";
         $txt = "<p>The post has been uploaded.</p><br>";
         fwrite($myfile, $txt);
@@ -116,8 +105,30 @@
     fclose($myfile);
 
 
+    
+    //Retrieving values submited in admin.php
+    if($uploadOk == 1)
+    {
+        $Username =     filter_has_var(INPUT_POST, 'Name')?     $_POST['Name'] : null;
+        $GroupID =      filter_has_var(INPUT_POST, 'Group')?    $_POST['Group'] : null;
+        $Text =         filter_has_var(INPUT_POST, 'Text')?     $_POST['Text'] : null;
+        $ProfilePic =   filter_has_var(INPUT_POST, 'avatar')?   $_POST['avatar'] : null;
+
+        //since only one checkbox can be selected the [0]'th element will be the selected avatar
+        $ProfilePic_path = $avatar_dir . $ProfilePic[0];
+        $avatar = null;
 
 
+    
+        $sqlInsert = "INSERT INTO Post (GroupID, Username, Text, Image, ProfilePic) 
+                  VALUES (:GroupID, :Username, :Text, :Image, :ProfilePic)";
+        $stmt = $db->prepare($sqlInsert); 
+        $stmt->execute(array(':GroupID' => $GroupID, 
+                            ':Username' => $Username, 
+                            ':Text' => $Text,
+                            ':Image' => $target_file_post,
+                            ':ProfilePic' => $ProfilePic_path));
+    }    
 
 
   

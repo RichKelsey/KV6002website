@@ -1,1 +1,1 @@
-<p>Sorry, there was an error uploading your post.</p><br>
+<p>The post has been uploaded.</p><br>
