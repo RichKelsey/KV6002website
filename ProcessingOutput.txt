@@ -1,3 +1,0 @@
-<p>Sorry, file already exists.
-</p<p>Sorry, your file was not uploaded.
-</p

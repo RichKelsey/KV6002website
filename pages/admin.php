@@ -9,52 +9,80 @@
 
 	<main >
 
+		<!-- dummy iframe is to not redirect the user away from the dashboard when they submit the form -->
+		<iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+
+		<!-- Button reveals Create Post interface -->
+		<button onclick="PostInterface()">New Post</button>
+
 
 		<?php 
-			//include 'connection.php';
-			//write entered values into variables to later display
-			require_once "credentials.php";
-			try 
-			{
-				$dbh = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-				$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-				
-				//display Interface for creating a post
-				//iframe is to not redirect the user from the dashboard when they submit the form
-				echo '
-				
-				<iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+
+			$directory="../img/avatars/";
+			$files = array();
+
+			//to select the first avatar by default
+			$tmp = 0;
 
 
-				<button onclick="PostInterface()">New Post</button>
-				
-				<div id="CreatePost" style="display:none">
-					<form action="ProcessUpload.php" method="post" enctype="multipart/form-data" target="dummyframe">
-						<br>
-						<label for="Name">Username:</label>
-						<input type="text" id="Name" name="Name">
-		
-						<label for="Group">Group ID:</label>
-						<input type="number" id="Group" name="Group"><br><br>
-		
-						<label for="file" style="cursor: pointer;">Upload Image (optional)</label>
-						<input type="file"  accept="image/*" name="Image" id="Image"  onchange="loadFile(event)"><br>
-						<img id="output" width="200" /><br><br>
-		
-						<label for="Post">Post:</label>
-						<input type="text" id="Text" name="Text"><br><br>
-						<input type="submit" value="Submit" id="Submit" onclick="setTimeout(DisplayOutput,500)">
-					</form>
-				</div>
-				<div id="OutputFromForm">
-				<p>xd</p>
-				</div>';
+			echo'
+			<!-- Post creation form -->
+
+			<div id="CreatePost" style="display:none">
+				<form action="../php/ProcessUpload.php" method="post" enctype="multipart/form-data" target="dummyframe" onsubmit="return validateForm()">';
+					
+				echo"<br><label for='avatar[]'>Select an avatar:<br><br>";
+
+				//display all available avatars
+				foreach (scandir($directory) as $file) 
+				{
+					if ($file !== '.' && $file !== '..') 
+					{
+						$files[] = $file;
+						
+						echo"<img src='../img/avatars/$file'" . "width='40' height='40' />";
+						
+						//to select the first avatar by default
+						if($tmp == 0)
+						{
+							echo"<input type='checkbox' name='avatar[]' value='{$file}' onclick='selectOnlyOne(this)' checked >";
+						}
+						else
+						{
+							echo"<input type='checkbox' name='avatar[]' value='{$file}' onclick='selectOnlyOne(this)'>";
+						}
+						$tmp +=1;
+						
+					}
+				}
+				echo"</label><br><br>";
+				echo'
+					<br>
+					<label for="Name">Username:</label>
+					<input type="text" id="Name" name="Name" required>
+
+					<label for="Group">Group ID:</label>
+					<input type="number" id="Group" name="Group" required><br><br><br>
+
+					<label for="file" style="cursor: pointer;">Upload Image (optional)</label>
+					<input type="file"  accept="image/*" name="Image" id="Image"  onchange="loadFile(event)"><br>
+					<img id="output" width="200" /><br><br>
+
+					<label for="Post">Post:</label>
+					<input type="text" id="Text" name="Text" required><br><br>
+
+					<input type="submit" value="Submit" id="Submit" onclick="setTimeout(DisplayOutput,500)">
+				</form>
+			</div>
+
+			<!-- This is where the output from uploading the image is displayed -->
+
+			<div id="OutputFromForm">
+				<p></p>
+			</div>';
 		
 
-			} catch (PDOException $e) 
-			{
-				die("Error!: " . $e->getMessage() . "<br/>");
-			}
+
 			
 
 		?>
@@ -100,7 +128,35 @@
 
 			function DisplayOutput()
 			{
-				$("#OutputFromForm").load("ProcessingOutput.txt");
+				$("#OutputFromForm").load("../php/ProcessingOutput.txt");
+			}
+
+			function selectOnlyOne(checkbox) 
+			{
+				var checkboxes = document.getElementsByName('avatar[]');
+				checkboxes.forEach((item) => 
+				{
+					if (item !== checkbox) item.checked = false;
+				});
+			}
+
+			function validateForm()
+			{
+				var checkboxes = document.getElementsByName("avatar[]");
+				var checked = false;
+				for (var i = 0; i < checkboxes.length; i++)
+				{
+					if (checkboxes[i].checked) 
+					{
+						checked = true;
+						break;
+					}
+				}
+				if (!checked)
+				{
+					alert("Please select an avatar.");
+					return false;
+				}
 			}
 
 
