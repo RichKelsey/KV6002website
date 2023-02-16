@@ -14,12 +14,8 @@ function db_connect()
 		return null;
 	}
 
-	if (
-		!isset($host) ||
-		!isset($dbname) ||
-		!isset($username) ||
-		!isset($password)
-	) {
+	$credentialsMissing = (!isset($host) || !isset($dbname) || !isset($username) || !isset($password)); 
+	if ($credentialsMissing) {
 		log_error("Credentials are incomplete.<br>");
 		return null;
 	}
