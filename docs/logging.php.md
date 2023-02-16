@@ -2,8 +2,36 @@
 
 ``logging.php`` contains functions to handle logging in php code.
 
-Logging writes to ``php.log`` in the project root if the DEBUG constant is not
+Logging writes to ``php.log`` in the project root if the ``DEBUG`` constant is not
 defined.
+
+The ``DEBUG`` constant is defined at the top of ``logging.php``:
+
+```php
+define("DEBUG", null);
+```
+
+## Examples
+
+**Basic usage:**
+
+The below example logs a normal message if the database connection is
+successful, and an error message if not.
+
+```php
+try {
+	$dbh = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+	$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+	// Log normal message
+	log_print("Database connection was successful.");
+	return $dbh;
+} catch (PDOException $e) {
+
+	// Log an error
+	log_error("Error!: " . $e->getMessage() . "<br>");
+}
+```
 
 ## log_print
 

@@ -17,6 +17,29 @@ It requires that you also define the following variables:
 - ``username``: the username
 - ``pasword``: the password for the user 
 
+## Examples
+
+**Basic usage:**
+
+The below example creates a database connection, makes a query and closes the
+connection.
+
+```php
+$dbh = db_connect();
+// Check if connection successful
+if (!$dbh) die("Can't connect to database");
+
+// Do things with database connection
+$tables = db_getTableNames($dbh);
+foreach ($tables as $table) {
+	echo $table . " ";
+}
+echo "<br>"
+
+// close conection
+$dbh = null;
+```
+
 ## db_connect
 
 ```php
@@ -38,7 +61,7 @@ failure.
 ## db_getTableNames
 
 ```php
-db_getTableNames(PDO $dbh): void
+db_getTableNames(PDO $dbh): array
 ```
 
 This function may mostly be temporary, only to test the connection to database
@@ -52,4 +75,4 @@ during development.
 
 ### Return Values
 
-This function doesn't return anything.
+This function returns an array of table names.
