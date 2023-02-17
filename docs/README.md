@@ -18,4 +18,4 @@ The index for the project's documentation.
 
 - [displayPosts.js][displayPosts.js]
 
-[displayPosts.js]: displayPosts.js
+[displayPosts.js]: displayPosts.js.md
