@@ -1,5 +1,5 @@
 # ProcessUpload.php:
-
+[admin.php]: ../pages/admin.php
 ``ProcessUpload.php`` processes new posts from [admin.php][admin.php] where they are created, and uploads them to the database.
 
 ### Depends on:
