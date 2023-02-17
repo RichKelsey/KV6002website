@@ -9,7 +9,7 @@
 
 ## Example output
 
-![Example of a post in the news feed](https://i.imgur.com/qIyYfH0.png "Example of post")
+![Example of a post in the news feed](https://i.imgur.com/oygelOJ.png "Example of post")
 
 Output from the script is pure HTML placed directly into the DOM, specifically 
 one div per entry in the Post table, each containing all the info from said 
@@ -22,6 +22,9 @@ dynamically in the DOM. For example, the Username is placed inside a \<h3>.
     - \<Div> 
     - ID: Dynamically named using that post's PostID from the database
     - Class: "post"
+- Profile Picture
+    - \<img>
+    - Class: "profilePic"
 - Username:
     - \<h3>
     - Class: "username"

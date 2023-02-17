@@ -14,6 +14,12 @@ fetch(URL) //initiate fetch request
         div.setAttribute("class", "post");
         document.getElementById("postLayout").appendChild(div);
 
+        //create img to hold profile pic
+        img = document.createElement("img");
+        img.setAttribute("src", element.ProfilePic);
+        img.setAttribute("class", "profilePic");
+        document.getElementById(element.PostID).appendChild(img);
+
         //create h3 to hold username
         h3 = document.createElement("h3");
         h3.setAttribute("class", "username");
@@ -30,7 +36,7 @@ fetch(URL) //initiate fetch request
         likeButton = document.createElement("button");
         likeButton.setAttribute("type", "button");
         likeButton.setAttribute("class", "likeButton");
-        likeButton.innerHTML = "Like";
+        likeButton.innerHTML = "Like 👍";
         document.getElementById(element.PostID).appendChild(likeButton);
 
     });

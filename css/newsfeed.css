@@ -7,10 +7,11 @@
 }
 
 .post{
-    border: 3px solid rgb(0,0,0); 
+    border-radius: 7px;
+    border: 1px solid rgb(148, 148, 148); 
     margin: 10px; 
     padding: 7px; 
-    background-color: rgb(240,240,240);
+    background-color: rgb(255, 255, 255);  
     transition: 0.3s;
 }
 
@@ -18,6 +19,30 @@
     margin: 0px 0px 0px 0px;
 }
 
+.post :is(h3) {
+    text-align: justify;
+}
+
 .post:hover{
-    background-color: rgb(225,225,225);
+    background-color: rgb(247, 247, 247);
+}
+
+.profilePic{
+    border-radius: 50%;
+    float: left;
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+}
+
+.likeButton{
+    background-color: rgb(250, 250, 250);
+    border: 1px solid rgb(148, 148, 148);
+    border-radius: 7px;
+    padding: 5px;
+    transition: 0.3s;
+}
+
+.likeButton:hover{
+    background-color: rgb(240, 240, 240);
 }
