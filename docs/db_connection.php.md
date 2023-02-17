@@ -58,6 +58,28 @@ This function has no parameters.
 If connection is successful it returns an instance of the PDO class, or null on
 failure.
 
+## db_query
+
+```php
+function db_query($query, $dbh): JSON
+```
+
+Allows for a MYSQL query to be sent to the database and for it's response to be received and encoded to JSON data.
+
+### Parameters
+
+**query**
+
+- A string containing a valid MYSQL statement that will be sent to the database
+
+**dbh**
+
+- This function takes in a PDO instance as a handle to to the database.
+
+### Return Values
+
+If the operation was successful a JSON object will be returned containing the result of the MYSQL query. On failure null is returned.
+
 ## db_getTableNames
 
 ```php
@@ -76,3 +98,50 @@ during development.
 ### Return Values
 
 This function returns an array of table names.
+
+## On POST request
+
+When the file receives a POST request it checks the body of the POST for a 
+JSON key called ``query`` and then passes the query (along with a PDO instance 
+from [db_connect()](#db_connect)) to [db_query()](#db_query) in order to 
+execute said query as a MYSQL statement on the database. The result of the 
+statement is then output using ``echo`` acting as a POST response.
+
+### Parameters
+
+**JSON**
+
+- Expects a JSON object that includes a key called ``query``.
+
+### Return Values
+
+Returns the response from the database formatted as a JSON object using 
+``echo``.
+
+### Example POST request
+
+```JavaScript
+const URL = "../php/db_connection.php"; //set file path to php file
+var data = { query: 'SELECT * FROM Post' }; //query to be sent to db
+
+//POST to file
+fetch(URL, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(data), //encode the data as JSON
+})
+  .then((response) => {
+    return response.json(); //return the POST response as a JSON object
+  })
+  .then((data) => {
+    console.log('Success:', data);//log the response in the console
+  })
+  .catch((error) => {
+    console.error('Error:', error); //on error log the error to console
+  });
+```
+
+An example post request written in JavaScript that POSTs the query and then 
+logs the response to the browser's console.

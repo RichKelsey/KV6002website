@@ -3,6 +3,18 @@ include_once __DIR__ . "/logging.php";
 
 define("CREDENTIALS_FILE",  __DIR__ . "/credentials.php");
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+	$data = json_decode(file_get_contents('php://input'), true);
+    if (isset($data['query'])) {
+		$query = $data['query'];
+		$dbh = db_connect();
+		$result = db_query($query, $dbh);
+		echo $result;
+	}
+	else {
+		log_error("Query is null.");
+	}
+}
 
 function db_connect()
 {
@@ -25,6 +37,31 @@ function db_connect()
 		$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 		return $dbh;
+	} catch (PDOException $e) {
+		log_error("Error!: " . $e->getMessage() . "<br>");
+		return null;
+	}
+}
+
+function db_query($query, $dbh){
+	if (!isset($dbh)) {
+		log_error("Database handle is null.");
+		return null;
+	}
+
+	if (!isset($query)) {
+		log_error("Query is null.");
+		return null;
+	}
+
+	try {
+		$statement = $dbh->prepare($query);
+		$statement->execute();
+		$result = $statement->fetchAll(PDO::FETCH_ASSOC);
+		
+		$jsonResult = json_encode($result); //encode as json
+
+		return $jsonResult;
 	} catch (PDOException $e) {
 		log_error("Error!: " . $e->getMessage() . "<br>");
 		return null;

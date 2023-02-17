@@ -1,10 +1,20 @@
-const URL = "../php/fetchPosts.php"; //set file path to php file
+const URL = "../php/db_connection.php"; //set file path to php file
 
-fetch(URL) //initiate fetch request
-.then(function (response) {
-    return response.json(); //return response as json
+var data = { query: 'SELECT * FROM Post' }; //query to be sent to db
+
+//sent post request to db connection file with query as data
+fetch(URL, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(data),
 })
-.then(function(data) {
+  .then((response) => {
+    return response.json();
+  })
+  .then((data) => {
+    console.log('Success:', data);
     data.forEach(element => {
 
         //create post HTML elements
@@ -40,7 +50,7 @@ fetch(URL) //initiate fetch request
         document.getElementById(element.PostID).appendChild(likeButton);
 
     });
-})
-.catch(function (err) {
-    console.log("Something went wrong!", err);
-});
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
