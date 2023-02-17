@@ -5,7 +5,7 @@ define("CREDENTIALS_FILE",  __DIR__ . "/credentials.php");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$data = json_decode(file_get_contents('php://input'), true);
-    if (isset($data['query'])) {
+	if (isset($data['query'])) {
 		$query = $data['query'];
 		$dbh = db_connect();
 		$result = db_query($query, $dbh);
