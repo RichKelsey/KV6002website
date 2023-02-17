@@ -8,11 +8,11 @@ The index for the project's documentation.
 
 - [logging.php][logging.php]
 
-- [fetchPosts.php][fetchPosts.php]
+- [ProcessUpload.php][ProcessUpload.php]
 
 [db_connection.php]: db_connection.php.md
 [logging.php]: logging.php.md
-[fetchPosts.php]: fetchPosts.php.md
+[ProcessUpload.php]: ProcessUpload.php.md
 
 ## JS
 
