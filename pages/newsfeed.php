@@ -15,7 +15,7 @@
     <script>
         var query = "SELECT * FROM Post";
         queryDB(query).then((posts) => {
-            displayPosts(posts);
+            displayPosts("postLayout", posts);
         });
     </script>
     <div id="postLayout"></div>
