@@ -70,7 +70,7 @@ Allows for a MYSQL query to be sent to the database and for it's response to be 
 
 **query**
 
-- A string containing a valid MYSQL statement that will be sent to the database
+- A string containing a valid MYSQL statement that will be sent to the database.
 
 **dbh**
 

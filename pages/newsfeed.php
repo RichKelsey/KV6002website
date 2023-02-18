@@ -10,7 +10,14 @@
 </head>
 <body>
     <!-- include the js script for displaying posts -->
+    <script src="../js/queryDB.js"></script>
     <script src="../js/displayPosts.js"></script>
+    <script>
+        var query = "SELECT * FROM Post";
+        queryDB(query).then((posts) => {
+            displayPosts(posts);
+        });
+    </script>
     <div id="postLayout"></div>
 </body>
 </html>

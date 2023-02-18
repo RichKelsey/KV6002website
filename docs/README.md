@@ -17,5 +17,7 @@ The index for the project's documentation.
 ## JS
 
 - [displayPosts.js][displayPosts.js]
+- [queryDB.js][queryDB.js]
 
 [displayPosts.js]: displayPosts.js.md
+[queryDB.js]: queryDB.js

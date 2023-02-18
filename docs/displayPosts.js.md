@@ -1,15 +1,25 @@
 # displayPosts.js
 
-``displayPosts.js`` uses [db_connection.php][db_connection.php] to fetch all the posts from the database. It does so by sending a POST request to the file. For more information on how the request is handled see 
-[db_connection POST request][db_connection.php/POST].
+``displayPosts.js`` takes a JSON arrray of post properties and turns it into HTML of individual posts.
 
-[db_connection.php]: db_connection.php.md
-[db_connection.php/POST]: db_connection.php.md#on-post-request
+## displayPosts()
 
-### Depends on:
-- [db_connection.php][db_connection.php]
+```JavaScript
+displayPosts(JSON posts): //no return
+```
+This function displays and formats social media post data in the DOM.
 
-## Example output
+### Parameters
+
+**posts**
+
+- A JSON encoded array of post data
+
+### Return Values
+
+No variables returned. Output is the post data displayed in the DOM.
+
+### Example output
 
 ![Example of a post in the news feed](https://i.imgur.com/oygelOJ.png "Example of post")
 
