@@ -1,7 +1,7 @@
 <?php
 include_once __DIR__ . "/logging.php";
 
-define("CREDENTIALS_FILE",  __DIR__ . "/credentials.php");
+define("CREDENTIALS_FILE", __DIR__ . "/credentials.php");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$data = json_decode(file_get_contents('php://input'), true);
@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 function db_connect()
 {
-	if (file_exists(CREDENTIALS_FILE)) { 
+	if (file_exists(CREDENTIALS_FILE)) {
 		include CREDENTIALS_FILE;
 	}
 	else {
@@ -26,7 +26,7 @@ function db_connect()
 		return null;
 	}
 
-	$credentialsMissing = (!isset($host) || !isset($dbname) || !isset($username) || !isset($password)); 
+	$credentialsMissing = (!isset($host) || !isset($dbname) || !isset($username) || !isset($password));
 	if ($credentialsMissing) {
 		log_error("Credentials are incomplete.<br>");
 		return null;
