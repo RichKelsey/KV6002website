@@ -20,4 +20,4 @@ The index for the project's documentation.
 - [queryDB.js][queryDB.js]
 
 [displayPosts.js]: displayPosts.js.md
-[queryDB.js]: queryDB.js
+[queryDB.js]: queryDB.js.md
