@@ -13,11 +13,11 @@
 	<script src="../js/displayPosts.js"></script>
 	<script src="../js/postAnalytics.js"></script>
 	<script>
-        var query = "SELECT * FROM Post";
-        queryDB(query).then((posts) => {
-            displayPosts("posts", posts);
-		    checkPosts();
-        });
+		var query = "SELECT * FROM Post";
+		queryDB(query).then((posts) => {
+			displayPosts("posts", posts);
+			checkPosts();
+		});
 	</script>
 
 	<div id="topContent">
