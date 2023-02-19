@@ -54,6 +54,53 @@ button:hover{
  * experimental layout 
  */
 
+body.experimental {
+	margin: 0;
+	display: flex;
+
+	background: black;
+	color: lightgrey;
+}
+
+#topContent {
+	padding: 2em;
+	width: 40%;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+#bottomContent {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	height: 100vh;
+	background: #202020;
+}
+
+@media (max-width: 800px) {
+	body.experimental {
+		flex-direction: column;
+	}
+
+	#topContent {
+		width: 100%;
+		height: 13vh;
+	}
+
+	#bottomContent {
+		height: 80vh;
+	}
+}
+
+#posts {
+	width: 100%;
+	max-width: 50em;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	/* snapping for measuring retention */
+	scroll-snap-type: y mandatory;
+}
+
 .post.experimental {
 	background: #2c2c2c;
 	color: white;
@@ -85,20 +132,19 @@ button:hover{
 	padding: 0 0 0 0.5em;
     margin-top: auto;
     margin-bottom: auto;
-
 }
 
-.post.experimental > .postBody{
-    display: grid;
+.post.experimental > .postBody {
+	/* snapping and height for measuring retention */
+	scroll-snap-align: center;
+	min-height: 40vh;
+	max-height: 80vh;
 }
 
 .post.experimental > .postBody > img{
 	object-fit: contain;
 	max-height: 300px;
-    max-width: 100%;
-    height: auto;
-    width: auto;
-    place-self: center;
+	width: 100%;
 }
 
 .post.experimental > .postFooter {
