@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="en">
 	<head>
+		<!-- temp css -->
+		<link rel="stylesheet" href="../css/admin.css"> 
 		<meta charset="utf-8">
 		<title> Administrator Dashboard </title>
 		<!--<link href="custom.css" rel="stylesheet">-->
@@ -81,8 +83,38 @@
 				<p></p>
 			</div>';
 		
+			//connect to the database
+			require_once("../php/db_connection.php");
+			$db = db_connect();
+
+			// Check if connection successful
+			if (!$db) die("Can't connect to database");
 
 
+			echo'
+			<aside>
+			<!-- Button reveals Create Post interface -->
+			<div class="dropdown">
+				<button class="dropbtn">Download Statistics</button>
+				<div class="dropdown-content">';
+
+				//display all available groups
+				$query = "SELECT GroupID FROM `Group`";
+
+				$json_result = db_query($query, $db);
+				$json_decoded = json_decode($json_result, TRUE);
+
+				foreach($json_decoded as $key => $value)
+				{
+					echo "<button onclick='DownloadStatistics($key)'> Group $key </button>";
+				}
+
+			echo'
+				</div>
+			</div>
+
+				<button class="dropbtn" onclick="DownloadIndividual()">Download Individual Activity</button>
+			</aside>';
 			
 
 		?>
@@ -90,6 +122,7 @@
 		<script src="https://code.jquery.com/jquery-3.6.3.min.js" 
 		integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" 
 		crossorigin="anonymous"></script>
+		<script src="../js/queryDB.js"></script>
 
 		<script>
 
@@ -159,6 +192,86 @@
 				}
 			}
 
+			function DownloadStatistics(GroupID)
+			{
+				var totals_data = [];
+				var postIDs = [];
+				//requesting results of a query asynchronously
+
+				//query for statistics
+				var queryAll = "SELECT A.PostID, SUM(HasLiked) AS Likes, SUM(RetentionTime) AS Retention, COUNT(A.PostID) AS Views " +
+							"FROM Analytics A " + 
+							"JOIN Post B " + 
+							"ON A.PostID = B.PostID " +
+							"AND B.GroupID =" + GroupID +
+							" GROUP BY PostID";
+	
+				Query(queryAll);
+			}
+
+			function DownloadIndividual()
+			{
+				//query for actions of individuals
+				var queryIndividual = "SELECT A.ParticipantID, GroupID, Name, ProfilePic, Bio, PostID, HasLiked, RetentionTime, Comment " +
+									"FROM Participant A " +
+									"JOIN Analytics B " +
+									"ON A.ParticipantID = B.ParticipantID";
+
+				Query(queryIndividual);		
+			}
+
+			function Query(query)
+			{
+				queryDB(query).then((returnedJSON) => 
+				{
+
+					const csv = JSONtoCSV(returnedJSON);
+
+					// Create a new Blob object from the CSV string
+					const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+
+					// Create a new anchor element with the download attribute
+					const link = document.createElement('a');
+					link.setAttribute('href', '#');
+					link.setAttribute('download', 'data.csv');
+					link.innerText = 'Download';
+
+					// Append the anchor element to the DOM
+					document.body.appendChild(link);
+
+					if (navigator.msSaveBlob) 
+					{ // IE 10+
+						navigator.msSaveBlob(blob, 'data.csv');
+					}
+					else
+					{
+						// Create a new URL object for the Blob object
+						const url = window.URL.createObjectURL(blob);
+
+						// Set the href property of the anchor element to the URL of the Blob object
+						link.href = url;
+
+						// Trigger a click event on the anchor element to download the file
+						link.click();
+
+						// Remove the anchor element from the DOM
+						document.body.removeChild(link);
+
+						// Release the URL object to free up memory
+						window.URL.revokeObjectURL(url);
+					}
+					
+				});
+			}
+
+
+			// Function to convert JSON data to CSV string
+			function JSONtoCSV(json) {
+			const header = Object.keys(json[0]).join(',') + '\n';
+			const rows = json.map(obj => Object.values(obj).join(',') + '\n');
+			return header + rows.join('');
+			}
+
 
 
 		</script>
@@ -168,6 +281,8 @@
 	
 		
 	</aside>
+
+	
 	</div>
 	
 	</body>
