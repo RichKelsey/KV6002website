@@ -1,9 +1,10 @@
 #postLayout{
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 40%;
     grid-auto-columns: minmax(min-content, max-content);
     grid-auto-rows: minmax(min-content, max-content);
     margin: 15px;
+    justify-content: center;
 }
 
 .post{
@@ -35,14 +36,137 @@
     margin: 5px;
 }
 
-.likeButton{
-    background-color: rgb(250, 250, 250);
+button{
+    background-color: rgb(78, 78, 78);
     border: 1px solid rgb(148, 148, 148);
     border-radius: 7px;
     padding: 5px;
     transition: 0.3s;
+    color: white;
+    margin: 0px 1em 0px 0px;
 }
 
-.likeButton:hover{
-    background-color: rgb(240, 240, 240);
+button:hover{
+    background-color: rgb(107, 107, 107);
+}
+
+/* 
+ * experimental layout 
+ */
+
+body.experimental {
+	margin: 0;
+	display: flex;
+
+	background: black;
+	color: lightgrey;
+}
+
+#topContent {
+	padding: 2em;
+	width: 40%;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+#bottomContent {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	height: 100vh;
+	background: #202020;
+}
+
+@media (max-width: 800px) {
+	body.experimental {
+		flex-direction: column;
+	}
+
+	#topContent {
+		width: 100%;
+		height: 13vh;
+	}
+
+	#bottomContent {
+		height: 80vh;
+	}
+}
+
+#posts {
+	width: 100%;
+	max-width: 50em;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	/* snapping for measuring retention */
+	scroll-snap-type: y mandatory;
+}
+
+.post.experimental {
+	background: #2c2c2c;
+	color: white;
+	margin: 1em;
+	padding: 0px;
+	border-radius: 5px;
+}
+
+.post.experimental > *{
+	padding: .75em;
+}
+
+.post.experimental > .postHead {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.post.experimental > .postHead > img {
+	border-radius: 50%;
+	color: black;
+	object-fit: contain;
+	max-width: 10%;
+	min-width: 32px;
+	width: auto;
+	height: auto;
+}
+
+.post.experimental > .postHead > h3 {
+	padding: 0 0 0 0.5em;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.post.experimental > .postBody {
+	/* snapping and height for measuring retention */
+	scroll-snap-align: center;
+	min-height: 40vh;
+	max-height: 80vh;
+}
+
+.post.experimental > .postBody > img{
+	object-fit: contain;
+	max-height: 300px;
+	width: 100%;
+}
+
+.post.experimental > .postFooter {
+    background-color: #353535;
+    border-top: #474747 1px solid;
+}
+
+.commentBox{
+    width: 100%;
+    height: 5em;
+    display: block;
+    margin: .7em 0 0 0;
+    padding: 0.5em;
+    box-sizing: border-box;
+    border:none;
+    resize: none;
+    outline: none;
+    color: white;
+    background-color: rgb(80, 80, 80);
+    border-radius: 5px;
+}
+
+.comment{
+    padding: .5em;
 }
