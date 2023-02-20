@@ -95,10 +95,11 @@ body.experimental {
 #posts {
 	width: 100%;
 	max-width: 50em;
+	padding: 50vh 0;
 	overflow-y: scroll;
 	overflow-x: hidden;
 	/* snapping for measuring retention */
-	scroll-snap-type: y mandatory;
+	scroll-snap-type: y proximity;
 }
 
 .post.experimental {
@@ -137,7 +138,6 @@ body.experimental {
 .post.experimental > .postBody {
 	/* snapping and height for measuring retention */
 	scroll-snap-align: center;
-	min-height: 40vh;
 	max-height: 80vh;
 }
 
