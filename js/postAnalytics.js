@@ -3,50 +3,48 @@ function checkPosts()
 	const posts = document.getElementsByClassName("post");
 	if (posts.length == 0) return;
 
-	const post = getCentermostElement(posts);
-	const id = post.id;
-	const username = post.getElementsByClassName("username")[0].innerText;
+	const visiblePosts       = getVisibleElements(posts);
+	const visiblePostsStrict = getVisibleElements(posts, true);
+	const centerPost         = getCentermostElement(posts);
 
-	const string = "Closest ID: " + id + "\n Username: " + username + "\n";
+	const centerPostString = getPostString(centerPost);
 
-	document.getElementById("responseText").innerText = string;
-}
-
-function getElementCenterY(element)
-{
-	const bounds = element.getBoundingClientRect();
-	return(bounds.top + bounds.bottom)/2;
-}
-
-// Binary searh to get nearest.
-function getCentermostElement(elements)
-{
-	const windowCenterY = (window.screenTop + window.screenTop + window.innerHeight)/2;
-	var closest = Math.abs(windowCenterY - getElementCenterY(elements[0]));
-	var closestIndex = 0;
-
-	var lower = 0;
-	var upper = elements.length-1;
-	var middle = 0;
-
-	while (lower <= upper) {
-		middle = Math.floor((lower + upper)/2);
-		const midElement = elements[middle];
-		dy = windowCenterY - getElementCenterY(midElement);
-
-		if (dy > 0) {
-			lower = middle + 1;
-		}
-		else {
-			upper = middle - 1;
-		}
-
-		const distance = Math.abs(dy);
-		if (distance < closest) {
-			closest = distance;
-			closestIndex = middle;
-		}
+	var visiblePostsString = "";
+	for (let i = 0; i < visiblePosts.length; i++) {
+		visiblePostsString += getPostString(visiblePosts[i]);
 	}
 
-	return elements[closestIndex];
+	var visiblePostsStrictString = "";
+	for (let i = 0; i < visiblePostsStrict.length; i++) {
+		visiblePostsStrictString += getPostString(visiblePostsStrict[i]);
+	}
+
+	// DOM manipulation
+	const responseDiv = document.getElementById("responseText");
+	if (!responseDiv) return;
+
+	const centerPostH3 = createElementOnce(responseDiv, "h3", "centerPostH3");
+	centerPostH3.innerText = "Center post:";
+
+	const centerPostDiv = createElementOnce(responseDiv, "div", "centerPost");
+	centerPostDiv.innerText = centerPostString;
+
+	const visiblePostH3 = createElementOnce(responseDiv, "h3", "visiblePostH3");
+	visiblePostH3.innerText = "Visible posts:";
+
+	const visiblePostDiv = createElementOnce(responseDiv, "div", "visiblePostDiv");
+	visiblePostDiv.innerText = visiblePostsString;
+
+	const visiblePostStrictH3 = createElementOnce(responseDiv, "h3", "visiblePostStrictH3");
+	visiblePostStrictH3.innerText = "Visible posts strict:";
+
+	const visiblePostStrictDiv = createElementOnce(responseDiv, "div", "visiblePostStrictDiv");
+	visiblePostStrictDiv.innerText = visiblePostsStrictString;
+}
+
+function getPostString(post)
+{
+	const id = post.id;
+	const username = post.getElementsByClassName("username")[0].innerText;
+	return "ID: " + id + "\n Username: " + username + "\n";
 }

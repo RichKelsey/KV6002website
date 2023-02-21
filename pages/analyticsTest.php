@@ -11,6 +11,7 @@
 <body class="experimental">
 	<script src="../js/queryDB.js"></script>
 	<script src="../js/displayPosts.js"></script>
+	<script src="../js/dom.js"></script>
 	<script src="../js/postAnalytics.js"></script>
 	<script>
 		var query = "SELECT * FROM Post";
