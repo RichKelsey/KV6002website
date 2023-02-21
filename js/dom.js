@@ -3,9 +3,14 @@ function createElementOnce(parentElement, type, id)
 	const existingElement = document.getElementById(id);
 	if (existingElement) return existingElement;
 
+	const parent = document.getElementById(parentElement);
+
 	const element = document.createElement(type);
 	element.setAttribute("id", id);
-	parentElement.appendChild(element);
+
+	if (parent) parent.appendChild(element);
+	else console.log("No parent element to append " + type + " of ID: " + id);
+
 	return element;
 }
 

@@ -20,25 +20,22 @@ function checkPosts()
 	}
 
 	// DOM manipulation
-	const responseDiv = document.getElementById("responseText");
-	if (!responseDiv) return;
-
-	const centerPostH3 = createElementOnce(responseDiv, "h3", "centerPostH3");
+	const centerPostH3 = createElementOnce("responseText", "h3", "centerPostH3");
 	centerPostH3.innerText = "Center post:";
 
-	const centerPostDiv = createElementOnce(responseDiv, "div", "centerPost");
+	const centerPostDiv = createElementOnce("responseText", "div", "centerPost");
 	centerPostDiv.innerText = centerPostString;
 
-	const visiblePostH3 = createElementOnce(responseDiv, "h3", "visiblePostH3");
+	const visiblePostH3 = createElementOnce("responseText", "h3", "visiblePostH3");
 	visiblePostH3.innerText = "Visible posts:";
 
-	const visiblePostDiv = createElementOnce(responseDiv, "div", "visiblePostDiv");
+	const visiblePostDiv = createElementOnce("responseText", "div", "visiblePostDiv");
 	visiblePostDiv.innerText = visiblePostsString;
 
-	const visiblePostStrictH3 = createElementOnce(responseDiv, "h3", "visiblePostStrictH3");
+	const visiblePostStrictH3 = createElementOnce("responseText", "h3", "visiblePostStrictH3");
 	visiblePostStrictH3.innerText = "Visible posts strict:";
 
-	const visiblePostStrictDiv = createElementOnce(responseDiv, "div", "visiblePostStrictDiv");
+	const visiblePostStrictDiv = createElementOnce("responseText", "div", "visiblePostStrictDiv");
 	visiblePostStrictDiv.innerText = visiblePostsStrictString;
 }
 
