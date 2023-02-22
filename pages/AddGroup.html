@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<!-- temp css -->
+		<link rel="stylesheet" href="../css/admin.css"> 
+		<link rel="stylesheet" href="../css/newsfeed.css"> 
+		<meta charset="utf-8">
+		<title> Administrator Dashboard </title>
+		
+	</head>
+
+	<main >
+
+		<!-- dummy iframe is to not redirect the user away from the dashboard when they submit the form -->
+		<iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+
+        <div class="CreatePost" id="CreatePost">
+            <form action="../php/UploadGroup.php" method="post" target="dummyframe">
+				
+				<br><br><br><br>
+
+				<label for="GroupID">LikesAllowance:</label>
+				<input type="number" id="LikesAllowance" name="LikesAllowance" min="0" step="1" required><br><br>
+
+				<label for="GroupID">TimeAllowance:</label>
+				<input type="number" id="TimeAllowance" name="TimeAllowance" min="0" step="1" required><br><br>
+
+				<label for="GroupID">LikesReceived:</label>
+				<input type="number" id="LikesReceived" name="LikesReceived" min="0" step="1" required><br><br>
+
+
+				<input type="submit" value="Submit" id="Submit" onclick="setTimeout(DisplayOutput,500)">
+			</form>
+		</div>
+		<div id="OutputFromForm">
+			<p></p>
+		</div>
+
+		<div>
+			<button onclick="GoToMain()">Back To Main</button>
+		</div>
+
+		
+		
+		
+	</main>
+
+	<script src="https://code.jquery.com/jquery-3.6.3.min.js" 
+	integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" 
+	crossorigin="anonymous"></script>
+	<script>
+
+		//display success of errors of creating a post
+		function DisplayOutput()
+		{
+			$("#OutputFromForm").load("../php/UploadGroup.txt");
+		}
+		function GoToMain()
+		{
+			window.location.href = "http://localhost:8000/pages/admin.php";
+		}
+	</script>
+		
+	
+	</body>
+</html>

@@ -4,6 +4,7 @@ credentials.php
 *.log
 # ignore runtime generated files
 ProcessingOutput.txt
+UploadGroup.txt
 img/posts/*
 
 StartServer.bat
