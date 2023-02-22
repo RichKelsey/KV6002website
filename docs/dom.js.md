@@ -34,7 +34,7 @@ A newly created, or existing HTML element is returned.
 ## elementCenterY
 
 ```JavaScript
-elementCenterY(element element): //no return
+elementCenterY(element element): float
 ```
 
 Gets the center height of the HTML element.
@@ -51,12 +51,12 @@ No variables returned. Output is the post data displayed in the DOM.
 
 ### Return Values
 
-A newly created, or existing HTML element is returned.
+A float representing height is returned.
 
 ## elementTopY
 
 ```JavaScript
-elementTopY(element element): //no return
+elementTopY(element element): float
 ```
 
 Gets the top height of the HTML element.
@@ -69,12 +69,12 @@ Gets the top height of the HTML element.
 
 ## Return Values
 
-No variables returned. Output is the post data displayed in the DOM.
+A float representing height is returned.
 
 ## elementBottomY
 
 ```JavaScript
-elementBottomY(element element): //no return
+elementBottomY(element element): float
 ```
 
 Gets the center height of the HTML element.
@@ -87,7 +87,7 @@ Gets the center height of the HTML element.
 
 ## Return Values
 
-No variables returned. Output is the post data displayed in the DOM.
+A float representing height is returned.
 
 ## getClosestElementIndex
 
@@ -96,7 +96,7 @@ getClosestElementIndex(
 	HTMLCollection elements,
 	float target,
 	function elementHeightFunction(element element): float
-): //no return
+): int
 ```
 
 Get the index of the closest HTML element from ``elements`` to the ``target``
