@@ -6,6 +6,9 @@ credentials.php
 ProcessingOutput.txt
 UploadGroup.txt
 img/posts/*
+# ignore ctags related files
+tags
+*.ctags
 
 StartServer.bat
 admin.html
