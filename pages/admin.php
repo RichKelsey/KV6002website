@@ -361,7 +361,7 @@
 				postLayout.innerHTML = "";
 
 				queryDB(query).then((posts) => {
-					displayPosts("postLayout", posts);
+					displayPosts("postLayout", posts, admin=true);
 				});
 			}
 
@@ -375,6 +375,7 @@
 					}
 
 			}
+
 
 
 
