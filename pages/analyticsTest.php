@@ -17,8 +17,9 @@
 		var query = "SELECT * FROM Post";
 		queryDB(query).then((posts) => {
 			displayPosts("posts", posts);
-			checkPosts();
+			Analytics.checkPosts();
 		});
+		setInterval(function() {Analytics.checkPosts()}, 200);
 	</script>
 
 	<div id="topContent">
@@ -28,7 +29,7 @@
 	</div>
 
 	<div id="bottomContent">
-	<div id="posts" class="experimental" onscroll="checkPosts()"></div>
+	<div id="posts" class="experimental"></div>
 	</div>
 </body>
 </html>
