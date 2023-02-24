@@ -31,22 +31,23 @@ class Analytics
 			const postInViewAgain = (!postStat.inView);
 			if (postInViewAgain) {
 				postStat.timesViewed++;
-				this.lastTime = performance.now();
+				postStat.lastTime = performance.now();
 			}
 		}
 
 		for (const id in this.#postsStats) {
 			const postStat = this.#postsStats[id];
 
+			// below assumes that the post ID are stored in ascending order
 			const topVisible = visiblePosts[0];
 			const bottomVisible = visiblePosts[visiblePosts.length - 1];
 			const postInView = (Number(topVisible.id) <= Number(id) && Number(id) <= Number(bottomVisible.id));
 
 			if (postStat.inView) {
 				postStat.secondsViewed += (performance.now() - postStat.lastTime)/1000;
+				postStat.lastTime = performance.now();
 			}
 
-			postStat.lastTime = performance.now();
 			postStat.inView = postInView;
 		}
 
