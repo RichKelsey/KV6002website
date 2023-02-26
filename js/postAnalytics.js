@@ -1,8 +1,12 @@
 // C-like struct
 function PostStats() {
-	this.secondsViewed = 0;
+	this.timeViewed = 0;
+	this.maxTimeViewed = 0;
 	this.timesViewed = 0;
 	this.weightedScore = 0;
+
+	this.currentViewTime = 0
+	this.canBeViewed = false;
 	this.inView = false;
 	this.lastTime = 0;
 }
@@ -11,7 +15,7 @@ class Analytics
 {
 	static #postsStats = {};
 
-	static checkPosts()
+	static update()
 	{
 		const posts = document.getElementsByClassName("post");
 		if (posts.length == 0) return;
@@ -20,38 +24,52 @@ class Analytics
 		const visiblePostsStrict = getVisibleElements(posts, true);
 		const centerPost         = getCentermostElement(posts);
 
+		this.#updatePostStats(visiblePosts);
+		this.#updateResponseText(visiblePosts, visiblePostsStrict, centerPost);
+	}
+
+	static #updatePostStats(visiblePosts)
+	{
 		for (const i in visiblePosts) {
 			const post = visiblePosts[i];
 
 			const postNotInPostStats = (typeof this.#postsStats[post.id] === "undefined");
 			if (postNotInPostStats) this.#postsStats[post.id] = new PostStats();
 
-			const postStat = this.#postsStats[post.id];
+			const postStats = this.#postsStats[post.id];
 
-			const postInViewAgain = (!postStat.inView);
+			const postInViewAgain = (!postStats.inView);
 			if (postInViewAgain) {
-				postStat.timesViewed++;
-				postStat.lastTime = performance.now();
+				postStats.lastTime = performance.now();
+				postStats.currentViewTime = 0;
+				postStats.canBeViewed = true;
+			}
+
+			const secondsPassed = (performance.now() - postStats.lastTime)/1000;
+			if (secondsPassed > 0) postStats.lastTime = performance.now();
+
+			postStats.timeViewed += secondsPassed;
+			postStats.currentViewTime += secondsPassed;
+
+			if (postStats.maxTimeViewed < postStats.currentViewTime) postStats.maxTimeViewed = postStats.currentViewTime;
+
+			if (postStats.currentViewTime >= 2 && postStats.canBeViewed) {
+				postStats.timesViewed++;
+				postStats.canBeViewed = false;
 			}
 		}
 
 		for (const id in this.#postsStats) {
-			const postStat = this.#postsStats[id];
+			const postStats = this.#postsStats[id];
 
 			// below assumes that the post ID are stored in ascending order
 			const topVisible = visiblePosts[0];
 			const bottomVisible = visiblePosts[visiblePosts.length - 1];
+
 			const postInView = (Number(topVisible.id) <= Number(id) && Number(id) <= Number(bottomVisible.id));
 
-			if (postStat.inView) {
-				postStat.secondsViewed += (performance.now() - postStat.lastTime)/1000;
-				postStat.lastTime = performance.now();
-			}
-
-			postStat.inView = postInView;
+			postStats.inView = postInView;
 		}
-
-		this.#updateResponseText(visiblePosts, visiblePostsStrict, centerPost);
 	}
 
 	static #updateResponseText(visiblePosts, visiblePostsStrict, centerPost)
@@ -93,9 +111,23 @@ class Analytics
 		const id = post.id;
 		const username = post.getElementsByClassName("username")[0].innerText;
 
+		const round = function(x) {
+			return Math.floor(x * 10) / 10;
+		}
+
 		const postStats = this.#postsStats[post.id];
 		const timesViewed = postStats.timesViewed;
-		const secondsViewed = Math.floor(postStats.secondsViewed*10)/10;
-		return "ID: " + id + "\nUsername: " + username + "\nTimesViewed: " + timesViewed + "\nSecondsViewed: " + secondsViewed + "\n";
+		const timeViewed = round(postStats.timeViewed);
+		const averageViewTime = round(timeViewed / timesViewed);
+		const maxTimeViewed = round(postStats.maxTimeViewed);
+		const currentViewTime = round(postStats.currentViewTime);
+		return "ID: " + id + 
+			"\nUsername: " + username +
+			"\nTimes Viewed: " + timesViewed +
+			"\nTime Viewed: " + timeViewed +
+			"\nAverage time:" + averageViewTime +
+			"\nMax time:" + maxTimeViewed +
+			"\nCurrent time:" + currentViewTime +
+			"\n";
 	}
 }

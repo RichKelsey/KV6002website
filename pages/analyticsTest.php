@@ -17,9 +17,9 @@
 		var query = "SELECT * FROM Post";
 		queryDB(query).then((posts) => {
 			displayPosts("posts", posts);
-			Analytics.checkPosts();
+			Analytics.update();
 		});
-		setInterval(function() {Analytics.checkPosts()}, 200);
+		setInterval(function() {Analytics.update()}, 200);
 	</script>
 
 	<div id="topContent">
