@@ -188,12 +188,12 @@
 					//to select the first avatar by default
 					if($tmp == 0)
 					{
-						echo"<input type='checkbox' id='avatar' name='avatar[]' value='{$file}' onclick='selectOnlyOne(this)' checked >";
+						echo"<input type='checkbox' id='avatar' name='avatar[]' value='{$file}' onclick='AvatarSelection(\"$file\")' checked >";
 						echo"</div>";
 					}
 					else
 					{
-						echo"<input type='checkbox' id='avatar' name='avatar[]' value='{$file}' onclick='selectOnlyOne(this)'>";
+						echo"<input type='checkbox' id='avatar' name='avatar[]' value='{$file}' onclick='AvatarSelection(\"$file\")'>";
 						echo"</div>";
 					}
 					
@@ -411,35 +411,62 @@
 					}
 
 			}
+			//avatar is a relative path to the new selected avatar
+			var avatar;
+			function AvatarSelection(avatarName)
+			{
+				//setting the relative path to the new avatar
+				avatar = "../img/avatars/"+avatarName;
 
-			function EditPost(post)
+				//animate a popup selection of avatars
+				var popup = document.getElementById("avatarsEdit");
+
+				// Set the transition properties
+				popup.style.transition = "transform 0.3s ease-out, opacity 0.3s ease-out";
+				popup.style.transform = "scale(0.5)";
+				popup.style.opacity = "0";
+				
+				// Wait for the transition to complete before hiding the popup
+				setTimeout(function() {
+					popup.style.display = "none";
+				}, 300);
+
+
+			}
+
+			function EditPost(post, postID)
 			{
 				//getting the new values from the post
 				var usernameElement = post.querySelector('.username');
   				var postTextElement = post.querySelector('.postText');
 				var imgElement = post.querySelector('.img');
 
+			
+
 				//retrieving only the text content of them. Excluding html
 				usernameElement = usernameElement.textContent;
 				postTextElement = postTextElement.textContent;
 
+				//this is the case
+				if(avatar !== null)
+				{
+					var query = "UPDATE Post " +
+								"SET Username='" + usernameElement + "', " +
+								"Text='" + postTextElement + "', " +
+								"ProfilePic='" + avatar + "' " +
+								"WHERE PostID=" + postID;
+
+					
+					queryDB(query).then((json) => 
+					{
+						window.alert("Post Updated. Refresh the page");
+					});
+				}
+
 
 			}
-			function AvatarSelection(post, event)
-			{
-				var popup = document.getElementById("avatarsEdit");
 
-				var x = event.clientX;
-				var y = event.clientY;
 
-				// Set the position of the popup
-				popup.style.top = y + "px";
-				popup.style.left = x + "px";
-				console.log(y + " " + x);
-				
-				// Display the popup
-				popup.style.display = "block";
-			}
 
 
 

@@ -113,6 +113,7 @@ function displayPostExperimental(parentElement, post, admin)
 				// replace the input field with a new paragraph element containing the edited text
 				username.innerHTML = input.value;
 				postHead.replaceChild(username, input);
+
 				});
 			}
 			});
@@ -185,7 +186,7 @@ function displayPostExperimental(parentElement, post, admin)
 				var submitButton = document.createElement("button");
 				submitButton.setAttribute("type", "button");
 				submitButton.setAttribute("class", "commentButton");
-				submitButton.setAttribute("onclick", "EditPost(document.getElementById(" + post.PostID + "))");
+				submitButton.setAttribute("onclick", "EditPost(document.getElementById(" + post.PostID + "), " + post.PostID + ")");
 				submitButton.innerHTML = "Submit";
 				postFooter.appendChild(submitButton);
 			}
