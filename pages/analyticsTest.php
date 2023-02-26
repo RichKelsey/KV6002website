@@ -17,14 +17,16 @@
 		var query = "SELECT * FROM Post";
 		queryDB(query).then((posts) => {
 			displayPosts("posts", posts);
-			Analytics.update();
 		});
+		Analytics.loadStatistics();
 		setInterval(function() {Analytics.update()}, 200);
 	</script>
 
 	<div id="topContent">
 		<h1>Analytics test page</h1>
 
+		<button onclick="Analytics.storeStatistics()">Store statistics</button>
+		<button onclick="Analytics.deleteStatistics()">Delete statistics</button>
 		<div id="responseText"></div>
 	</div>
 

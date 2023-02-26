@@ -1,3 +1,4 @@
+const ANALYTICS_STORAGE = "analyticsSession";
 // C-like struct
 function PostStats() {
 	this.timeViewed = 0;
@@ -26,6 +27,32 @@ class Analytics
 
 		this.#updatePostStats(visiblePosts);
 		this.#updateResponseText(visiblePosts, visiblePostsStrict, centerPost);
+	}
+
+	static storeStatistics()
+	{
+		const postsStats = this.#postsStats;
+		const string = JSON.stringify(postsStats);
+		sessionStorage.setItem(ANALYTICS_STORAGE, string);
+	}
+
+	static loadStatistics()
+	{
+		const string = sessionStorage.getItem(ANALYTICS_STORAGE);
+		if (!string) {
+			console.log("Analytics storge not found.");
+			return;
+		}
+
+		this.#postsStats = JSON.parse(string);
+		for (const id in this.#postsStats) {
+			this.#postsStats[id].inView = false;
+		}
+	}
+
+	static deleteStatistics()
+	{
+		sessionStorage.removeItem(ANALYTICS_STORAGE);
 	}
 
 	static #updatePostStats(visiblePosts)
@@ -125,9 +152,9 @@ class Analytics
 			"\nUsername: " + username +
 			"\nTimes Viewed: " + timesViewed +
 			"\nTime Viewed: " + timeViewed +
-			"\nAverage time:" + averageViewTime +
-			"\nMax time:" + maxTimeViewed +
-			"\nCurrent time:" + currentViewTime +
+			"\nAverage time: " + averageViewTime +
+			"\nMax time: " + maxTimeViewed +
+			"\nCurrent time: " + currentViewTime +
 			"\n";
 	}
 }
