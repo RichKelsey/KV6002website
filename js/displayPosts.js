@@ -59,8 +59,36 @@ function displayPostExperimental(parentElement, post, admin)
 			// add the profile picture
 			var profilePic = document.createElement("img");
 			profilePic.setAttribute("src", post.ProfilePic);
+			profilePic.setAttribute("class", "profilePic");			
+			//add event listeners if admin
+			if(admin)
+			{
+				//const container = document.querySelector('#avatarsEdit');
+				const popup = document.getElementById("avatarsEdit");
+
+				profilePic.addEventListener("click", function(event)
+				{
+					var y = event.target.offsetTop;
+					
+					// Set the position of the popup
+					popup.style.top = y +"px";
+
+					// Display the popup
+					popup.style.display = "block";
+
+					// Animate the popup
+					popup.style.transform = "scale(0)";
+					popup.style.opacity = "0";
+					popup.style.transition = "transform 0.3s ease-out, opacity 0.3s ease-out";
+					setTimeout(function() {
+						popup.style.transform = "scale(1)";
+						popup.style.opacity = "1";
+					}, 400);
+
+				});
+			}
 			postHead.appendChild(profilePic);
-  
+
 			// add the username
 			var username = document.createElement("h3");
 			username.setAttribute("class", "username");
@@ -188,3 +216,5 @@ function comment(ID) {
 		});
 	} 
 }
+
+

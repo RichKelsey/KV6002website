@@ -10,7 +10,9 @@
 	</head>
 	<!--<body BGCOLOR="#d6f5f5">-->
 
+	
 	<main >
+
 
 		<!-- dummy iframe is to not redirect the user away from the dashboard when they submit the form -->
 		<iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
@@ -20,6 +22,8 @@
 
 
 		<?php 
+
+
 
 			$directory="../img/avatars/";
 			$files = array();
@@ -73,6 +77,7 @@
 				}
 				echo"</label><br><br>";
 				echo"</div>";
+
 
 				echo'
 					<br>
@@ -167,7 +172,37 @@
 
 
 
-
+			//image selection for editing posts
+			echo"<div class='avatarsEdit', id='avatarsEdit'>";
+			//display all available avatars
+			foreach (scandir($directory) as $file) 
+			{
+				if ($file !== '.' && $file !== '..') 
+				{
+					$files[] = $file;
+					
+					echo"<div class='avatarcontainer'>";
+					
+					echo"<label for='avatar'> <img src='../img/avatars/$file'/> </label>";
+					
+					//to select the first avatar by default
+					if($tmp == 0)
+					{
+						echo"<input type='checkbox' id='avatar' name='avatar[]' value='{$file}' onclick='selectOnlyOne(this)' checked >";
+						echo"</div>";
+					}
+					else
+					{
+						echo"<input type='checkbox' id='avatar' name='avatar[]' value='{$file}' onclick='selectOnlyOne(this)'>";
+						echo"</div>";
+					}
+					
+					$tmp +=1;
+					
+					
+				}
+			}
+			echo"</div>";
 		?>
 		
 		<script src="https://code.jquery.com/jquery-3.6.3.min.js" 
@@ -190,6 +225,7 @@
 
 				if (isDisplayed === 0) {
 					x.style.display = "block";
+
 				} else {
 					x.style.display = "none";
 				}
@@ -376,6 +412,34 @@
 
 			}
 
+			function EditPost(post)
+			{
+				//getting the new values from the post
+				var usernameElement = post.querySelector('.username');
+  				var postTextElement = post.querySelector('.postText');
+				var imgElement = post.querySelector('.img');
+
+				//retrieving only the text content of them. Excluding html
+				usernameElement = usernameElement.textContent;
+				postTextElement = postTextElement.textContent;
+
+
+			}
+			function AvatarSelection(post, event)
+			{
+				var popup = document.getElementById("avatarsEdit");
+
+				var x = event.clientX;
+				var y = event.clientY;
+
+				// Set the position of the popup
+				popup.style.top = y + "px";
+				popup.style.left = x + "px";
+				console.log(y + " " + x);
+				
+				// Display the popup
+				popup.style.display = "block";
+			}
 
 
 
