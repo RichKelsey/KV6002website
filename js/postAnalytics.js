@@ -25,6 +25,7 @@ class Analytics
 		const visiblePostsStrict = getVisibleElements(posts, true);
 		const centerPost         = getCentermostElement(posts);
 
+		this.#updatePostsDOM(posts);
 		this.#updatePostStats(visiblePosts);
 		this.#updateResponseText(visiblePosts, visiblePostsStrict, centerPost);
 	}
@@ -63,21 +64,13 @@ class Analytics
 		sessionStorage.removeItem(ANALYTICS_STORAGE);
 	}
 
-	static #LikeButtonClassAttribute = null;
 	static like(post)
 	{
 		const postStats = this.#postsStats[post.id];
-		const likeButton = post.getElementsByClassName("likeButton")[0];
-
-		if (!this.#LikeButtonClassAttribute) 
-			this.#LikeButtonClassAttribute = likeButton.getAttribute("class");
 
 		postStats.liked = postStats.liked? false : true;
 
-		if (postStats.liked)
-			likeButton.setAttribute("class", this.#LikeButtonClassAttribute + " button-on");
-		else
-			likeButton.setAttribute("class", this.#LikeButtonClassAttribute);
+		this.#updatePostLikeButton(post);
 	}
 
 	static #updatePostStats(visiblePosts)
@@ -183,5 +176,31 @@ class Analytics
 			"\nMax time: " + maxTimeViewed +
 			"\nCurrent time: " + currentViewTime +
 			"\n";
+	}
+
+	static #likeButtonClassAttribute = null;
+	static #updatePostLikeButton(post)
+	{
+		const postStats = this.#postsStats[post.id];
+		const likeButton = post.getElementsByClassName("likeButton")[0];
+
+		if (!this.#likeButtonClassAttribute) 
+			this.#likeButtonClassAttribute = likeButton.getAttribute("class");
+
+		if (postStats.liked)
+			likeButton.setAttribute("class", this.#likeButtonClassAttribute + " button-on");
+		else
+			likeButton.setAttribute("class", this.#likeButtonClassAttribute);
+	}
+
+	static #updatePostsDOM(posts)
+	{
+		for (let i = 0; i < posts.length; i++) {
+			const post = posts[i];
+			const postStats = this.#postsStats[post.id];
+			if (!postStats) continue;
+
+			this.#updatePostLikeButton(post);
+		}
 	}
 }
