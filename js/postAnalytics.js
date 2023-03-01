@@ -4,7 +4,7 @@ function PostStats() {
 	this.timeViewed = 0;
 	this.maxTimeViewed = 0;
 	this.timesViewed = 0;
-	this.weightedScore = 0;
+	this.liked = false;
 
 	this.currentViewTime = 0
 	this.canBeViewed = false;
@@ -38,21 +38,46 @@ class Analytics
 
 	static loadStatistics()
 	{
-		const string = sessionStorage.getItem(ANALYTICS_STORAGE);
-		if (!string) {
+		const obj = this.getStatistics();
+		if (!obj) {
 			console.log("Analytics storge not found.");
 			return;
 		}
 
-		this.#postsStats = JSON.parse(string);
+		this.#postsStats = obj;
 		for (const id in this.#postsStats) {
 			this.#postsStats[id].inView = false;
 		}
 	}
 
+	static getStatistics()
+	{
+		const string = sessionStorage.getItem(ANALYTICS_STORAGE);
+		if (!string) return null;
+
+		return JSON.parse(string);
+	}
+
 	static deleteStatistics()
 	{
 		sessionStorage.removeItem(ANALYTICS_STORAGE);
+	}
+
+	static #LikeButtonClassAttribute = null;
+	static like(post)
+	{
+		const postStats = this.#postsStats[post.id];
+		const likeButton = post.getElementsByClassName("likeButton")[0];
+
+		if (!this.#LikeButtonClassAttribute) 
+			this.#LikeButtonClassAttribute = likeButton.getAttribute("class");
+
+		postStats.liked = postStats.liked? false : true;
+
+		if (postStats.liked)
+			likeButton.setAttribute("class", this.#LikeButtonClassAttribute + " button-on");
+		else
+			likeButton.setAttribute("class", this.#LikeButtonClassAttribute);
 	}
 
 	static #updatePostStats(visiblePosts)
@@ -78,9 +103,11 @@ class Analytics
 			postStats.timeViewed += secondsPassed;
 			postStats.currentViewTime += secondsPassed;
 
-			if (postStats.maxTimeViewed < postStats.currentViewTime) postStats.maxTimeViewed = postStats.currentViewTime;
+			const newMaximumViewTime = postStats.maxTimeViewed < postStats.currentViewTime;
+			if (newMaximumViewTime) postStats.maxTimeViewed = postStats.currentViewTime;
 
-			if (postStats.currentViewTime >= 2 && postStats.canBeViewed) {
+			const postNotYetViewed = (postStats.currentViewTime >= 2 && postStats.canBeViewed);
+			if (postNotYetViewed) {
 				postStats.timesViewed++;
 				postStats.canBeViewed = false;
 			}
