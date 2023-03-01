@@ -1,11 +1,15 @@
 const ANALYTICS_STORAGE = "analyticsSession";
-// C-like struct
+// C-like structs
 function PostStats() {
 	this.timeViewed = 0;
 	this.maxTimeViewed = 0;
 	this.timesViewed = 0;
 	this.liked = false;
 
+	this.state = null;
+}
+// Runtime post state
+function PostState() {
 	this.currentViewTime = 0
 	this.canBeViewed = false;
 	this.inView = false;
@@ -32,8 +36,14 @@ class Analytics
 
 	static storeStatistics()
 	{
-		const postsStats = this.#postsStats;
+		// deep copy and discard runtime post state before storage
+		const postsStats = structuredClone(this.#postsStats);
+		for (const id in postsStats) {
+			postsStats[id].state = null;
+		}
+
 		const string = JSON.stringify(postsStats);
+		console.log(string);
 		sessionStorage.setItem(ANALYTICS_STORAGE, string);
 	}
 
@@ -47,7 +57,7 @@ class Analytics
 
 		this.#postsStats = obj;
 		for (const id in this.#postsStats) {
-			this.#postsStats[id].inView = false;
+			this.#postsStats[id].state = new PostState();
 		}
 	}
 
@@ -79,35 +89,40 @@ class Analytics
 			const post = visiblePosts[i];
 
 			const postNotInPostStats = (typeof this.#postsStats[post.id] === "undefined");
-			if (postNotInPostStats) this.#postsStats[post.id] = new PostStats();
-
-			const postStats = this.#postsStats[post.id];
-
-			const postInViewAgain = (!postStats.inView);
-			if (postInViewAgain) {
-				postStats.lastTime = performance.now();
-				postStats.currentViewTime = 0;
-				postStats.canBeViewed = true;
+			if (postNotInPostStats) {
+				this.#postsStats[post.id] = new PostStats();
+				this.#postsStats[post.id].state = new PostState();
 			}
 
-			const secondsPassed = (performance.now() - postStats.lastTime)/1000;
-			if (secondsPassed > 0) postStats.lastTime = performance.now();
+			const postStats = this.#postsStats[post.id];
+			const postState = postStats.state;
+
+			const postInViewAgain = (!postState.inView);
+			if (postInViewAgain) {
+				postState.lastTime = performance.now();
+				postState.currentViewTime = 0;
+				postState.canBeViewed = true;
+			}
+
+			const secondsPassed = (performance.now() - postState.lastTime)/1000;
+			if (secondsPassed > 0) postState.lastTime = performance.now();
 
 			postStats.timeViewed += secondsPassed;
-			postStats.currentViewTime += secondsPassed;
+			postState.currentViewTime += secondsPassed;
 
-			const newMaximumViewTime = postStats.maxTimeViewed < postStats.currentViewTime;
-			if (newMaximumViewTime) postStats.maxTimeViewed = postStats.currentViewTime;
+			const newMaximumViewTime = postStats.maxTimeViewed < postState.currentViewTime;
+			if (newMaximumViewTime) postStats.maxTimeViewed = postState.currentViewTime;
 
-			const postNotYetViewed = (postStats.currentViewTime >= 2 && postStats.canBeViewed);
+			const postNotYetViewed = (postState.currentViewTime >= 2 && postState.canBeViewed);
 			if (postNotYetViewed) {
 				postStats.timesViewed++;
-				postStats.canBeViewed = false;
+				postState.canBeViewed = false;
 			}
 		}
 
 		for (const id in this.#postsStats) {
 			const postStats = this.#postsStats[id];
+			const postState = postStats.state;
 
 			// below assumes that the post ID are stored in ascending order
 			const topVisible = visiblePosts[0];
@@ -115,7 +130,7 @@ class Analytics
 
 			const postInView = (Number(topVisible.id) <= Number(id) && Number(id) <= Number(bottomVisible.id));
 
-			postStats.inView = postInView;
+			postState.inView = postInView;
 		}
 	}
 
@@ -163,11 +178,13 @@ class Analytics
 		}
 
 		const postStats = this.#postsStats[post.id];
+		const postState = postStats.state;
+
 		const timesViewed = postStats.timesViewed;
 		const timeViewed = round(postStats.timeViewed);
 		const averageViewTime = round(timeViewed / timesViewed);
 		const maxTimeViewed = round(postStats.maxTimeViewed);
-		const currentViewTime = round(postStats.currentViewTime);
+		const currentViewTime = round(postState.currentViewTime);
 		return "ID: " + id + 
 			"\nUsername: " + username +
 			"\nTimes Viewed: " + timesViewed +
