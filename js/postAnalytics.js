@@ -201,6 +201,9 @@ class Analytics
 		const postStats = this.#postsStats[post.id];
 		const likeButton = post.getElementsByClassName("likeButton")[0];
 
+		if (!likeButton.getAttribute("onclick"))
+			likeButton.setAttribute("onclick", "Analytics.like(document.getElementById(" + post.id + "))");
+
 		if (!this.#likeButtonClassAttribute) 
 			this.#likeButtonClassAttribute = likeButton.getAttribute("class");
 

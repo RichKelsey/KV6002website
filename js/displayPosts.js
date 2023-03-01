@@ -170,7 +170,6 @@ function displayPostExperimental(parentElement, post, admin)
 				var likeButton = document.createElement("button");
 				likeButton.setAttribute("type", "button");
 				likeButton.setAttribute("class", "likeButton");
-				likeButton.setAttribute("onclick", "Analytics.like(document.getElementById(" + post.PostID + "))");
 				likeButton.innerHTML = "Like 👍";
 				postFooter.appendChild(likeButton);
 			
