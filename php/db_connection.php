@@ -3,7 +3,10 @@ include_once __DIR__ . "/logging.php";
 
 define("CREDENTIALS_FILE", __DIR__ . "/credentials.php");
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+$isPostRequest  = ($_SERVER['REQUEST_METHOD'] === 'POST');
+$isCalledDirectly = (basename(__FILE__) == basename($_SERVER["SCRIPT_FILENAME"]));
+
+if ($isPostRequest && $isCalledDirectly) {
 	$data = json_decode(file_get_contents('php://input'), true);
 	if (isset($data['query'])) {
 		$query = $data['query'];
