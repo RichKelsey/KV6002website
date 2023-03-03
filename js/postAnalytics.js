@@ -83,6 +83,36 @@ class Analytics
 		this.#updatePostLikeButton(post);
 	}
 
+	static interfaceDB(action)
+	{
+		const URL = "../php/db_analytics.php";
+		var action = {"action": action};
+
+		return fetch(URL, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(action),
+		})
+			.then((response) => {
+				return response.json();
+			})
+			.then((data) => {
+				console.log('Success:', data);
+				const responseH3 = createElementOnce("responseText", "h3", "responseH3");
+				responseH3.innerText = "Response:";
+
+				const responseDiv = createElementOnce("responseText", "div", "responseDiv");
+				responseDiv.innerText = data;
+
+			})
+			.catch((error) => {
+				console.error('Error:', error);
+			});
+
+	}
+
 	static #updatePostStats(visiblePosts)
 	{
 		for (const i in visiblePosts) {
