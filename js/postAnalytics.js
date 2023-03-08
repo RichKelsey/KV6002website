@@ -1,10 +1,10 @@
 const ANALYTICS_STORAGE = "analyticsSession";
 // C-like structs
 function PostStats() {
-	this.timeViewed = 0;
+	this.retentionTime = 0;
 	this.maxTimeViewed = 0;
 	this.timesViewed = 0;
-	this.liked = false;
+	this.hasLiked = false;
 
 	this.state = null;
 }
@@ -77,7 +77,7 @@ class Analytics
 	{
 		const postStats = this.#postsStats[post.id];
 
-		postStats.liked = postStats.liked? false : true;
+		postStats.hasLiked = postStats.hasLiked? false : true;
 
 		this.#updatePostLikeButton(post);
 	}
@@ -91,6 +91,7 @@ class Analytics
 			data = this.getStatistics();
 		};
 
+		console.log(data);
 		var action = {
 			"action": action,
 			"data": data
@@ -145,7 +146,7 @@ class Analytics
 			const secondsPassed = (performance.now() - postState.lastTime)/1000;
 			if (secondsPassed > 0) postState.lastTime = performance.now();
 
-			postStats.timeViewed += secondsPassed;
+			postStats.retentionTime += secondsPassed;
 			postState.currentViewTime += secondsPassed;
 
 			const newMaximumViewTime = postStats.maxTimeViewed < postState.currentViewTime;
@@ -219,14 +220,14 @@ class Analytics
 		const postState = postStats.state;
 
 		const timesViewed = postStats.timesViewed;
-		const timeViewed = round(postStats.timeViewed);
-		const averageViewTime = round(timeViewed / timesViewed);
+		const retentionTime = round(postStats.retentionTime);
+		const averageViewTime = round(retentionTime / timesViewed);
 		const maxTimeViewed = round(postStats.maxTimeViewed);
 		const currentViewTime = round(postState.currentViewTime);
 		return "ID: " + id + 
 			"\nUsername: " + username +
 			"\nTimes Viewed: " + timesViewed +
-			"\nTime Viewed: " + timeViewed +
+			"\nTime Viewed: " + retentionTime +
 			"\nAverage time: " + averageViewTime +
 			"\nMax time: " + maxTimeViewed +
 			"\nCurrent time: " + currentViewTime +
@@ -245,7 +246,7 @@ class Analytics
 		if (!this.#likeButtonClassAttribute) 
 			this.#likeButtonClassAttribute = likeButton.getAttribute("class");
 
-		if (postStats.liked)
+		if (postStats.hasLiked)
 			likeButton.setAttribute("class", this.#likeButtonClassAttribute + " button-on");
 		else
 			likeButton.setAttribute("class", this.#likeButtonClassAttribute);
