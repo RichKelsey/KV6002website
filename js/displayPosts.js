@@ -204,8 +204,8 @@ function comment(ID) {
 		textArea.addEventListener("keydown", function (e) {
 			if (e.key === "Enter") {
 				var comment = textArea.value;
-				var postID = ID.children[0].innerHTML;
-				var query = `INSERT INTO Analytics (PostID, ParticipantID, Comment) VALUES(1,1,'${comment}') ON DUPLICATE KEY UPDATE Comment = '${comment}';`;
+				var postID = ID.getAttribute("id");
+				var query = `INSERT INTO Analytics (PostID, ParticipantID, Comment) VALUES('${postID}',1,'${comment}') ON DUPLICATE KEY UPDATE Comment = '${comment}';`;
 				console.log(query);
 				queryDB(query);
 				ID.children[2].removeChild(textArea);

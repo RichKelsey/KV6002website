@@ -43,7 +43,6 @@ class Analytics
 		}
 
 		const string = JSON.stringify(postsStats);
-		console.log(string);
 		sessionStorage.setItem(ANALYTICS_STORAGE, string);
 	}
 
@@ -86,7 +85,16 @@ class Analytics
 	static interfaceDB(action)
 	{
 		const URL = "../php/db_analytics.php";
-		var action = {"action": action};
+
+		var data = null;
+		if (action == "upload") {
+			data = this.getStatistics();
+		};
+
+		var action = {
+			"action": action,
+			"data": data
+		};
 
 		return fetch(URL, {
 			method: 'POST',
@@ -96,7 +104,7 @@ class Analytics
 			body: JSON.stringify(action),
 		})
 			.then((response) => {
-				return response.json();
+				return response.text();
 			})
 			.then((data) => {
 				console.log('Success:', data);
@@ -104,7 +112,7 @@ class Analytics
 				responseH3.innerText = "Response:";
 
 				const responseDiv = createElementOnce("responseText", "div", "responseDiv");
-				responseDiv.innerText = data;
+				responseDiv.innerHTML = data;
 
 			})
 			.catch((error) => {
