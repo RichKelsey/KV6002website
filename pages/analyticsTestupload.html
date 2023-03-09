@@ -11,11 +11,15 @@
 <body class="experimental">
 	<script src="../js/dom.js"></script>
 	<script src="../js/postAnalytics.js"></script>
+	<script>
+		window.onload = function () {
+			Analytics.interfaceDB("upload");
+		}
+	</script>
 	<div id="topContent">
 		<h1>Analytics test page</h1>
 
-		<button onclick="Analytics.interfaceDB('upload')">Upload statistics</button>
-		<button onclick="Analytics.interfaceDB('getComments')">Get comments</button>
+		<button onclick="history.back()">back</button>
 	</div>
 
 	<div id="bottomContent">
