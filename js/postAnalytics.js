@@ -221,23 +221,26 @@ class Analytics
 			visiblePostsStrictString += this.#getPostString(visiblePostsStrict[i]);
 		}
 
+		const parentElementID = "responseText";
+		if (!document.getElementById(parentElementID)) return;
+
 		// DOM manipulation
-		const centerPostH3 = createElementOnce("responseText", "h3", "centerPostH3");
+		const centerPostH3 = createElementOnce(parentElementID, "h3", "centerPostH3");
 		centerPostH3.innerText = "Center post:";
 
-		const centerPostDiv = createElementOnce("responseText", "div", "centerPost");
+		const centerPostDiv = createElementOnce(parentElementID, "div", "centerPost");
 		centerPostDiv.innerText = centerPostString;
 
-		const visiblePostH3 = createElementOnce("responseText", "h3", "visiblePostH3");
+		const visiblePostH3 = createElementOnce(parentElementID, "h3", "visiblePostH3");
 		visiblePostH3.innerText = "Visible posts:";
 
-		const visiblePostDiv = createElementOnce("responseText", "div", "visiblePostDiv");
+		const visiblePostDiv = createElementOnce(parentElementID, "div", "visiblePostDiv");
 		visiblePostDiv.innerText = visiblePostsString;
 
-		const visiblePostStrictH3 = createElementOnce("responseText", "h3", "visiblePostStrictH3");
+		const visiblePostStrictH3 = createElementOnce(parentElementID, "h3", "visiblePostStrictH3");
 		visiblePostStrictH3.innerText = "Visible posts strict:";
 
-		const visiblePostStrictDiv = createElementOnce("responseText", "div", "visiblePostStrictDiv");
+		const visiblePostStrictDiv = createElementOnce(parentElementID, "div", "visiblePostStrictDiv");
 		visiblePostStrictDiv.innerText = visiblePostsStrictString;
 	}
 
