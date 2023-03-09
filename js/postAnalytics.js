@@ -5,6 +5,7 @@ function PostStats() {
 	this.maxTimeViewed = 0;
 	this.timesViewed = 0;
 	this.hasLiked = false;
+	this.comment = "";
 
 	this.state = null;
 }
@@ -82,6 +83,40 @@ class Analytics
 		this.#updatePostLikeButton(post);
 	}
 
+	static comment(post, comment = null, isEdit = false)
+	{
+		const postStats = this.#postsStats[post.id];
+		if (!comment) comment = postStats.comment? postStats.comment : "";
+
+		const postFooter = post.getElementsByClassName("postFooter")[0];
+
+		if (postFooter.children.length > 2)
+			postFooter.removeChild(postFooter.children[2]);
+
+		if (isEdit) {
+			const textArea = document.createElement("textarea");
+			textArea.setAttribute("class", "commentBox");
+			textArea.value = comment;
+			postFooter.appendChild(textArea);
+
+			textArea.focus();
+
+			textArea.addEventListener("keydown", function (e) {
+				if (e.key === "Enter") {
+					postFooter.removeChild(textArea);
+					Analytics.comment(post, textArea.value);
+				}
+			});
+			return;
+		} 
+
+		const commentDiv = document.createElement("div");
+		commentDiv.setAttribute("class", "comment");
+		commentDiv.innerHTML = comment;
+		postStats.comment = comment;
+		postFooter.appendChild(commentDiv);
+	}
+
 	static interfaceDB(action)
 	{
 		const URL = "../php/db_analytics.php";
@@ -91,7 +126,6 @@ class Analytics
 			data = this.getStatistics();
 		};
 
-		console.log(data);
 		var action = {
 			"action": action,
 			"data": data
@@ -252,6 +286,17 @@ class Analytics
 			likeButton.setAttribute("class", this.#likeButtonClassAttribute);
 	}
 
+	static #updatePostCommentButton(post)
+	{
+		const postStats = this.#postsStats[post.id];
+		const commentButton = post.getElementsByClassName("commentButton")[0];
+
+		if (!commentButton.getAttribute("onclick")) {
+			commentButton.setAttribute("onclick", "Analytics.comment(document.getElementById(" + post.id + "), null, true)");
+			if (postStats.comment) this.comment(post, postStats.comment);
+		}
+	}
+
 	static #updatePostsDOM(posts)
 	{
 		for (let i = 0; i < posts.length; i++) {
@@ -260,6 +305,7 @@ class Analytics
 			if (!postStats) continue;
 
 			this.#updatePostLikeButton(post);
+			this.#updatePostCommentButton(post);
 		}
 	}
 }

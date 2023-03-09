@@ -67,7 +67,6 @@ function db_uploadPostStats($dbh, $postID, $participantID, $postStats)
 
 	if (!$result) {
 		db_insertPostStat($dbh, $postID, $participantID, $postStats);
-		log_print("Inserted new analytics");
 		return;
 	}
 
@@ -79,10 +78,11 @@ function db_updatePostStat($dbh, $analyticsID, $postStats)
 {
 	$sql = "UPDATE `Analytics`
 		SET
-			`HasLiked` = :HasLiked,
+			`HasLiked`      = :HasLiked,
 			`RetentionTime` = :RetentionTime,
 			`MaxTimeViewed` = :MaxTimeViewed,
-			`TimesViewed` = :TimesViewed
+			`TimesViewed`   = :TimesViewed,
+			`Comment`       = :Comment
 		WHERE 
 			`AnalyticsID` = :AnalyticsID";
 
@@ -93,10 +93,12 @@ function db_updatePostStat($dbh, $analyticsID, $postStats)
 		':RetentionTime' => $postStats["retentionTime"],
 		':MaxTimeViewed' => $postStats["maxTimeViewed"],
 		':TimesViewed'   => $postStats["timesViewed"],
+		':Comment'       => $postStats["comment"]
 	]);
-	$statement = null;
 
 	log_print("Updated AnalyticsID: " . $analyticsID);
+
+	$statement = null;
 }
 
 function db_insertPostStat($dbh, $postID, $participantID, $postStats)
@@ -108,7 +110,8 @@ function db_insertPostStat($dbh, $postID, $participantID, $postStats)
 			`HasLiked`,
 			`RetentionTime`,
 			`MaxTimeViewed`,
-			`TimesViewed`
+			`TimesViewed`,
+			`Comment`
 		)
 		VALUES(
 			:PostID,
@@ -116,7 +119,8 @@ function db_insertPostStat($dbh, $postID, $participantID, $postStats)
 			:HasLiked,
 			:RetentionTime,
 			:MaxTimeViewed,
-			:TimesViewed
+			:TimesViewed,
+			:Comment
 		)";
 
 	$statement = $dbh->prepare($sql);
@@ -127,7 +131,11 @@ function db_insertPostStat($dbh, $postID, $participantID, $postStats)
 		':RetentionTime' => $postStats["retentionTime"],
 		':MaxTimeViewed' => $postStats["maxTimeViewed"],
 		':TimesViewed'   => $postStats["timesViewed"],
+		':Comment'       => $postStats["comment"]
 	]);
+
+	log_print("Inserted new analytics");
+
 	$statement = null;
 }
 
