@@ -89,7 +89,7 @@ function db_updatePostStat($dbh, $analyticsID, $postStats)
 	$statement = $dbh->prepare($sql);
 	$statement->execute([
 		':AnalyticsID'   => $analyticsID,
-		':HasLiked'      => (int)$postStats["retentionTime"],
+		':HasLiked'      => (int)$postStats["hasLiked"],
 		':RetentionTime' => $postStats["retentionTime"],
 		':MaxTimeViewed' => $postStats["maxTimeViewed"],
 		':TimesViewed'   => $postStats["timesViewed"],
@@ -127,7 +127,7 @@ function db_insertPostStat($dbh, $postID, $participantID, $postStats)
 	$statement->execute([
 		':PostID'        => $postID,
 		':ParticipantID' => $participantID,
-		':HasLiked'      => (int)$postStats["retentionTime"],
+		':HasLiked'      => (int)$postStats["hasLiked"],
 		':RetentionTime' => $postStats["retentionTime"],
 		':MaxTimeViewed' => $postStats["maxTimeViewed"],
 		':TimesViewed'   => $postStats["timesViewed"],
