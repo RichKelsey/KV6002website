@@ -21,9 +21,6 @@ function handleaction()
 		}
 		db_uploadAnalytics($data["data"], 1);
 		break;
-	case "getComments": 
-		db_getComments();
-		break;
 	default:
 		log_error("db_analytics.php: invalid action");
 	}
@@ -137,17 +134,5 @@ function db_insertPostStat($dbh, $postID, $participantID, $postStats)
 	log_print("Inserted new analytics");
 
 	$statement = null;
-}
-
-function db_getComments()
-{
-	$dbh = db_connect();
-	if (!$dbh) {
-		log_error("db_getComments(): Can't connect to database");
-		return;
-	}
-
-	echo json_encode("db_getComments stub was called.");
-	$dbh = null;
 }
 ?>
