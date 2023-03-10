@@ -15,7 +15,7 @@ if (!$db) die("Can't connect to database");
 
 
 //write entered values into variables to later display
-require_once "credentials.php";
+require_once "../php/credentials.php";
 
 $directory = "../img/avatars/";
 $files = array();
