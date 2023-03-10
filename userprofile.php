@@ -36,6 +36,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
  						$files[] = $file;
 
  						echo"<img src='../img/avatars/$file'" . "width='40' height='40' />";
+					}
+				}
 
 
     // Validate input
