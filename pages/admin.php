@@ -6,9 +6,7 @@
 		<link rel="stylesheet" href="../css/newsfeed.css"> 
 		<meta charset="utf-8">
 		<title> Administrator Dashboard </title>
-		<!--<link href="custom.css" rel="stylesheet">-->
 	</head>
-	<!--<body BGCOLOR="#d6f5f5">-->
 
 	
 	<main >
@@ -86,7 +84,7 @@
 						<input type="text" id="Name" name="Name" required>
 
 						<label for="Group">Group ID:</label>
-						<select id="Group" name="dropdown" onchange="AddGroup()">';
+						<select id="Group" name="Group" onchange="AddGroup()">';
 
 						$query = "SELECT GroupID FROM `Group`";
 	
@@ -100,6 +98,10 @@
 						echo'
 						<option value="http://localhost:8000/pages/AddGroup.html"> Create a new Group</option>
 						</select>
+
+						<br><br>
+						<label for="LikeCount">Number of Likes</label>
+						<input type="number" min="0" step="1" inputmode="numeric" id="LikeCount" name="LikeCount" style="width: 60px;"required>
 						<br><br><br>
 
 						<label for="file" style="cursor: pointer;">Upload Image (optional)</label>

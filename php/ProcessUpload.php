@@ -120,47 +120,60 @@
     //Retrieving values submited in admin.php
     if($uploadOk == 1 && $FileUploaded == 1 || $uploadOk == 1 && $FileDuplicate == 1 && $FileUploaded == 1 )
     {
-        $Username =     filter_has_var(INPUT_POST, 'Name')?     $_POST['Name'] : null;
-        $GroupID =      filter_has_var(INPUT_POST, 'Group')?    $_POST['Group'] : null;
-        $Text =         filter_has_var(INPUT_POST, 'Text')?     $_POST['Text'] : null;
-        $ProfilePic =   filter_has_var(INPUT_POST, 'avatar')?   $_POST['avatar'] : null;
+        $Username =     filter_has_var(INPUT_POST, 'Name')?         $_POST['Name'] : null;
+        $GroupID =      filter_has_var(INPUT_POST, 'Group')?        $_POST['Group'] : null;
+        $Text =         filter_has_var(INPUT_POST, 'Text')?         $_POST['Text'] : null;
+        $ProfilePic =   filter_has_var(INPUT_POST, 'avatar')?       $_POST['avatar'] : null;
+        $LikeCount =    filter_has_var(INPUT_POST, 'LikeCount')?    $_POST['LikeCount'] : null;
 
         //since only one checkbox can be selected the [0]'th element will be the selected avatar
         $ProfilePic_path = $avatar_dir . $ProfilePic[0];
 
 
     
-        $sqlInsert = "INSERT INTO Post (GroupID, Username, Text, Image, ProfilePic) 
-                  VALUES (:GroupID, :Username, :Text, :Image, :ProfilePic)";
+        $sqlInsert = "INSERT INTO Post (GroupID, Username, Text, LikeCount, Image, ProfilePic) 
+                  VALUES (:GroupID, :Username, :Text, :LikeCount, :Image, :ProfilePic)";
         $stmt = $db->prepare($sqlInsert); 
         $stmt->execute(array(':GroupID' => $GroupID, 
                             ':Username' => $Username, 
                             ':Text' => $Text,
+                            ':LikeCount' => $LikeCount,
                             ':Image' => $target_file_post,
                             ':ProfilePic' => $ProfilePic_path));
     }  
     
     if($FileUploaded == 0)
     {
-        $Username =     filter_has_var(INPUT_POST, 'Name')?     $_POST['Name'] : null;
-        $GroupID =      filter_has_var(INPUT_POST, 'Group')?    $_POST['Group'] : null;
-        $Text =         filter_has_var(INPUT_POST, 'Text')?     $_POST['Text'] : null;
-        $ProfilePic =   filter_has_var(INPUT_POST, 'avatar')?   $_POST['avatar'] : null;
+        $Username =     filter_has_var(INPUT_POST, 'Name')?         $_POST['Name'] : null;
+        $GroupID =      filter_has_var(INPUT_POST, 'Group')?        $_POST['Group'] : null;
+        $Text =         filter_has_var(INPUT_POST, 'Text')?         $_POST['Text'] : null;
+        $ProfilePic =   filter_has_var(INPUT_POST, 'avatar')?       $_POST['avatar'] : null;
+        $LikeCount =    filter_has_var(INPUT_POST, 'LikeCount')?    $_POST['LikeCount'] : null;
+        
 
         //since only one checkbox can be selected the [0]'th element will be the selected avatar
         $ProfilePic_path = $avatar_dir . $ProfilePic[0];
 
     
 
-        $sqlInsert = "INSERT INTO Post (GroupID, Username, Text, ProfilePic) 
-                  VALUES (:GroupID, :Username, :Text, :ProfilePic)";
+        $sqlInsert = "INSERT INTO Post (GroupID, Username, Text, LikeCount, ProfilePic) 
+                  VALUES (:GroupID, :Username, :Text, :LikeCount, :ProfilePic)";
         $stmt = $db->prepare($sqlInsert); 
         $stmt->execute(array(':GroupID' => $GroupID, 
                             ':Username' => $Username, 
                             ':Text' => $Text,
+                            ':LikeCount' => $LikeCount,
                             ':ProfilePic' => $ProfilePic_path));
     }
 
+    
 
   
 ?>
+<script src="../js/queryDB.js"></script>
+<script>
+function Query()
+
+
+</script>
+
