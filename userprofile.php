@@ -72,21 +72,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // get user information
-$user_id = $conn->query('SELECT ParticipandID FROM Participant');// replace with the actual user ID
-$user_name = $conn->query('SELECT Name FROM Participant'); // replace with the actual user name
+//$user_id = $conn->query('SELECT ParticipandID FROM Participant');// replace with the actual user ID
+//$user_name = $conn->query('SELECT Name FROM Participant'); // replace with the actual user name
 
 // randomly allocate user to a group
-$group = $conn->query('SELECT GroupID FROM Group');
+//$group = $conn->query('SELECT GroupID FROM Group');
 
 // insert user and group information into database
-$sql = "INSERT INTO Participant (ParticipantID, GroupID, Name)
-        VALUES ('$user_id', '$user_name', '$group')";
+//$sql = "INSERT INTO Participant (ParticipantID, GroupID, Name)
+//        VALUES ('$user_id', '$user_name', '$group')";
 
-if (mysqli_query($conn, $sql)) {
-    echo "User allocated to group $group";
-} else {
-    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-}
+//if (mysqli_query($conn, $sql)) {
+//    echo "User allocated to group $group";
+//} else {
+//    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+//}
 
 ?>
 <!-- HTML form -->
