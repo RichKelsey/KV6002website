@@ -17,7 +17,11 @@
 
 		<!-- Button reveals Create Post interface -->
 		<button onclick="PostInterface()">New Post</button>
-
+		<br><br>
+		<div>
+			<button class="dropbtn" onclick="UpdateURL()" style="width: 180px;">Update Survey URL</button><br>
+			<input type="text" id="URL" name="URL" style="width: 170px;">
+		</div>
 
 		<?php 
 
@@ -126,6 +130,7 @@
 			//display download buttons
 			echo'
 			<aside>
+
 			<div class="dropdown">
 				<button class="dropbtn">Download Statistics</button>
 				<div class="dropdown-content">';
@@ -165,12 +170,15 @@
 				echo'
 					</div>
 				</div>
+
 			</aside>';
 
 			echo'
 			<div class="DisplayStats" id="DisplayStats">
+			
 
 			</div>';
+
 
 
 
@@ -206,6 +214,7 @@
 			}
 			echo"</div>";
 		?>
+		
 		
 		<script src="https://code.jquery.com/jquery-3.6.3.min.js" 
 		integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" 
@@ -443,7 +452,6 @@
   				var postTextElement = post.querySelector('.postText');
 				var imgElement = post.querySelector('.img');
 
-			
 
 				//retrieving only the text content of them. Excluding html
 				usernameElement = usernameElement.textContent;
@@ -464,10 +472,17 @@
 						window.alert("Post Updated. Refresh the page");
 					});
 				}
-
-
 			}
 
+			function UpdateURL()
+			{
+				var URL = document.getElementById("URL").value;
+				var query = "UPDATE URL SET URL='" + URL + "'";
+				queryDB(query).then((json) => 
+				{
+					window.alert("URL Updated.");
+				});
+			}
 
 
 
