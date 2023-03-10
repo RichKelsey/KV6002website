@@ -12,11 +12,14 @@
     <!-- include the js script for displaying posts -->
     <script src="../js/queryDB.js"></script>
     <script src="../js/displayPosts.js"></script>
+    <script src="../js/dom.js"></script>
+    <script src="../js/postAnalytics.js"></script>
     <script>
         var query = "SELECT * FROM Post";
         queryDB(query).then((posts) => {
             displayPosts("postLayout", posts);
         });
+        setInterval(function() {Analytics.update()}, 200);
     </script>
     <div id="postLayout"></div>
 </body>

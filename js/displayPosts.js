@@ -176,7 +176,6 @@ function displayPostExperimental(parentElement, post, admin)
 				var commentButton = document.createElement("button");
 				commentButton.setAttribute("type", "button");
 				commentButton.setAttribute("class", "commentButton");
-				commentButton.setAttribute("onclick", "comment(document.getElementById(" + post.PostID + "))");
 				commentButton.innerHTML = "Comment 💬";
 				postFooter.appendChild(commentButton);
 			}
@@ -191,31 +190,3 @@ function displayPostExperimental(parentElement, post, admin)
 				postFooter.appendChild(submitButton);
 			}
   }
-
-
-
-
-function comment(ID) {
-	if (!(ID.children[2].children.length > 2)) {
-		textArea = document.createElement("textarea");
-		textArea.setAttribute("class", "commentBox");
-		ID.children[2].appendChild(textArea);
-		textArea.focus();
-		textArea.addEventListener("keydown", function (e) {
-			if (e.key === "Enter") {
-				var comment = textArea.value;
-				var postID = ID.children[0].innerHTML;
-				var query = `INSERT INTO Analytics (PostID, ParticipantID, Comment) VALUES(1,1,'${comment}') ON DUPLICATE KEY UPDATE Comment = '${comment}';`;
-				console.log(query);
-				queryDB(query);
-				ID.children[2].removeChild(textArea);
-				var commentDiv = document.createElement("div");
-				commentDiv.setAttribute("class", "comment");
-				commentDiv.innerHTML = comment;
-				ID.children[2].appendChild(commentDiv);
-			}
-		});
-	} 
-}
-
-

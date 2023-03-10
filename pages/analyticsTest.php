@@ -20,13 +20,24 @@
 		});
 		Analytics.loadStatistics();
 		setInterval(function() {Analytics.update()}, 200);
+
+		function goToTestUpload() {
+			Analytics.storeStatistics();
+			location.assign("analyticsTestupload.html");
+		}
+
+		function deleteLocal() {
+			Analytics.deleteStatistics();
+			location.reload();
+		}
+
 	</script>
 
 	<div id="topContent">
 		<h1>Analytics test page</h1>
 
-		<button onclick="Analytics.storeStatistics()">Store statistics</button>
-		<button onclick="Analytics.deleteStatistics()">Delete statistics</button>
+		<button onclick="goToTestUpload()">Upload statistics</button>
+		<button onclick="deleteLocal()">Delete statistics</button>
 		<div id="responseText"></div>
 	</div>
 

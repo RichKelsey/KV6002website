@@ -1,10 +1,11 @@
 const ANALYTICS_STORAGE = "analyticsSession";
 // C-like structs
 function PostStats() {
-	this.timeViewed = 0;
+	this.retentionTime = 0;
 	this.maxTimeViewed = 0;
 	this.timesViewed = 0;
-	this.liked = false;
+	this.hasLiked = false;
+	this.comment = "";
 
 	this.state = null;
 }
@@ -43,7 +44,6 @@ class Analytics
 		}
 
 		const string = JSON.stringify(postsStats);
-		console.log(string);
 		sessionStorage.setItem(ANALYTICS_STORAGE, string);
 	}
 
@@ -78,9 +78,82 @@ class Analytics
 	{
 		const postStats = this.#postsStats[post.id];
 
-		postStats.liked = postStats.liked? false : true;
+		postStats.hasLiked = postStats.hasLiked? false : true;
 
 		this.#updatePostLikeButton(post);
+	}
+
+	static comment(post, comment = null, isEdit = false)
+	{
+		const postStats = this.#postsStats[post.id];
+		if (!comment) comment = postStats.comment? postStats.comment : "";
+
+		const postFooter = post.getElementsByClassName("postFooter")[0];
+
+		if (postFooter.children.length > 2)
+			postFooter.removeChild(postFooter.children[2]);
+
+		if (isEdit) {
+			const textArea = document.createElement("textarea");
+			textArea.setAttribute("class", "commentBox");
+			textArea.value = comment;
+			postFooter.appendChild(textArea);
+
+			textArea.focus();
+
+			textArea.addEventListener("keydown", function (e) {
+				if (e.key === "Enter") {
+					postFooter.removeChild(textArea);
+					Analytics.comment(post, textArea.value);
+				}
+			});
+			return;
+		} 
+
+		const commentDiv = document.createElement("div");
+		commentDiv.setAttribute("class", "comment");
+		commentDiv.innerHTML = comment;
+		postStats.comment = comment;
+		postFooter.appendChild(commentDiv);
+	}
+
+	static interfaceDB(action)
+	{
+		const URL = "../php/db_analytics.php";
+
+		var data = null;
+		if (action == "upload") {
+			data = this.getStatistics();
+		};
+
+		var action = {
+			"action": action,
+			"data": data
+		};
+
+		return fetch(URL, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(action),
+		})
+			.then((response) => {
+				return response.text();
+			})
+			.then((data) => {
+				console.log('Success:', data);
+				const responseH3 = createElementOnce("responseText", "h3", "responseH3");
+				responseH3.innerText = "Response:";
+
+				const responseDiv = createElementOnce("responseText", "div", "responseDiv");
+				responseDiv.innerHTML = data;
+
+			})
+			.catch((error) => {
+				console.error('Error:', error);
+			});
+
 	}
 
 	static #updatePostStats(visiblePosts)
@@ -107,7 +180,7 @@ class Analytics
 			const secondsPassed = (performance.now() - postState.lastTime)/1000;
 			if (secondsPassed > 0) postState.lastTime = performance.now();
 
-			postStats.timeViewed += secondsPassed;
+			postStats.retentionTime += secondsPassed;
 			postState.currentViewTime += secondsPassed;
 
 			const newMaximumViewTime = postStats.maxTimeViewed < postState.currentViewTime;
@@ -148,23 +221,26 @@ class Analytics
 			visiblePostsStrictString += this.#getPostString(visiblePostsStrict[i]);
 		}
 
+		const parentElementID = "responseText";
+		if (!document.getElementById(parentElementID)) return;
+
 		// DOM manipulation
-		const centerPostH3 = createElementOnce("responseText", "h3", "centerPostH3");
+		const centerPostH3 = createElementOnce(parentElementID, "h3", "centerPostH3");
 		centerPostH3.innerText = "Center post:";
 
-		const centerPostDiv = createElementOnce("responseText", "div", "centerPost");
+		const centerPostDiv = createElementOnce(parentElementID, "div", "centerPost");
 		centerPostDiv.innerText = centerPostString;
 
-		const visiblePostH3 = createElementOnce("responseText", "h3", "visiblePostH3");
+		const visiblePostH3 = createElementOnce(parentElementID, "h3", "visiblePostH3");
 		visiblePostH3.innerText = "Visible posts:";
 
-		const visiblePostDiv = createElementOnce("responseText", "div", "visiblePostDiv");
+		const visiblePostDiv = createElementOnce(parentElementID, "div", "visiblePostDiv");
 		visiblePostDiv.innerText = visiblePostsString;
 
-		const visiblePostStrictH3 = createElementOnce("responseText", "h3", "visiblePostStrictH3");
+		const visiblePostStrictH3 = createElementOnce(parentElementID, "h3", "visiblePostStrictH3");
 		visiblePostStrictH3.innerText = "Visible posts strict:";
 
-		const visiblePostStrictDiv = createElementOnce("responseText", "div", "visiblePostStrictDiv");
+		const visiblePostStrictDiv = createElementOnce(parentElementID, "div", "visiblePostStrictDiv");
 		visiblePostStrictDiv.innerText = visiblePostsStrictString;
 	}
 
@@ -181,14 +257,14 @@ class Analytics
 		const postState = postStats.state;
 
 		const timesViewed = postStats.timesViewed;
-		const timeViewed = round(postStats.timeViewed);
-		const averageViewTime = round(timeViewed / timesViewed);
+		const retentionTime = round(postStats.retentionTime);
+		const averageViewTime = round(retentionTime / timesViewed);
 		const maxTimeViewed = round(postStats.maxTimeViewed);
 		const currentViewTime = round(postState.currentViewTime);
 		return "ID: " + id + 
 			"\nUsername: " + username +
 			"\nTimes Viewed: " + timesViewed +
-			"\nTime Viewed: " + timeViewed +
+			"\nTime Viewed: " + retentionTime +
 			"\nAverage time: " + averageViewTime +
 			"\nMax time: " + maxTimeViewed +
 			"\nCurrent time: " + currentViewTime +
@@ -207,10 +283,21 @@ class Analytics
 		if (!this.#likeButtonClassAttribute) 
 			this.#likeButtonClassAttribute = likeButton.getAttribute("class");
 
-		if (postStats.liked)
+		if (postStats.hasLiked)
 			likeButton.setAttribute("class", this.#likeButtonClassAttribute + " button-on");
 		else
 			likeButton.setAttribute("class", this.#likeButtonClassAttribute);
+	}
+
+	static #updatePostCommentButton(post)
+	{
+		const postStats = this.#postsStats[post.id];
+		const commentButton = post.getElementsByClassName("commentButton")[0];
+
+		if (!commentButton.getAttribute("onclick")) {
+			commentButton.setAttribute("onclick", "Analytics.comment(document.getElementById(" + post.id + "), null, true)");
+			if (postStats.comment) this.comment(post, postStats.comment);
+		}
 	}
 
 	static #updatePostsDOM(posts)
@@ -221,6 +308,7 @@ class Analytics
 			if (!postStats) continue;
 
 			this.#updatePostLikeButton(post);
+			this.#updatePostCommentButton(post);
 		}
 	}
 }
