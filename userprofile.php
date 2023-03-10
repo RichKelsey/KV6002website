@@ -52,16 +52,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $hashed_Bio = bio_hash($Bio, BIO_DEFAULT);
 
         // Connect to database
-        $db = new mysqli('localhost', 'username', 'bio', 'ProfilePic');
+        $conn = new mysqli('localhost', 'username', 'bio', 'ProfilePic');
 
         // Check connection
-        if ($db->connect_error) {
-            die("Connection failed: " . $db->connect_error);
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
         }
 
         // Insert user into database
-        $sql = "INSERT INTO users (name , password) VALUES ('$Name', '$hashed_Bio')";
-        if ($db->query($sql) === TRUE) {
+        $sql = "INSERT INTO users (name , bio) VALUES ('$Name', '$hashed_Bio')";
+        if ($conn->query($sql) === TRUE) {
             echo "User created successfully";
         } else {
             echo "Error: " . $sql . "<br>" . $db->error;
