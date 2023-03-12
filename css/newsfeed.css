@@ -7,6 +7,11 @@
     justify-content: center;
 }
 
+#selfPost{
+	order: -1;
+	display: inherit;
+}
+
 .post{
     border-radius: 7px;
     border: 1px solid rgb(148, 148, 148); 

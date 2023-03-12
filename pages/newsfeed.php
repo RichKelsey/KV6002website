@@ -9,18 +9,24 @@
     <title>News Feed</title>
 </head>
 <body>
+<div id="postLayout"></div>
     <!-- include the js script for displaying posts -->
     <script src="../js/queryDB.js"></script>
     <script src="../js/displayPosts.js"></script>
     <script src="../js/dom.js"></script>
     <script src="../js/postAnalytics.js"></script>
     <script>
+
+        var query = "SELECT * FROM `Participant` WHERE `ParticipantID` = 1";
+        queryDB(query).then((post) => {
+            displaySelfPost("postLayout", post, 100);
+        });
+
         var query = "SELECT * FROM Post";
         queryDB(query).then((posts) => {
             displayPosts("postLayout", posts);
         });
         setInterval(function() {Analytics.update()}, 200);
     </script>
-    <div id="postLayout"></div>
 </body>
 </html>

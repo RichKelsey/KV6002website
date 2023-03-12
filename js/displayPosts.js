@@ -7,6 +7,56 @@ function displayPosts(parentElement, posts, admin=false) {
   });
 }
 
+function displaySelfPost(parentElement, post, likesReceived){
+
+	post = post[0];
+
+	var div = document.createElement("div");
+	div.setAttribute("id", "selfPost");
+	div.setAttribute("class", "post experimental");
+	document.getElementById(parentElement).appendChild(div);
+  
+	// create the post header element
+	var postHead = document.createElement("div");
+	postHead.setAttribute("class", "postHead");
+	div.appendChild(postHead);
+
+	// add the profile picture
+	var profilePic = document.createElement("img");
+	profilePic.setAttribute("src", post.ProfilePic);
+	profilePic.setAttribute("class", "profilePic");			
+	postHead.appendChild(profilePic);
+
+	// add the username
+	var username = document.createElement("h3");
+	username.setAttribute("class", "username");
+	username.innerHTML = post.Name;
+	postHead.appendChild(username);
+			
+	// create the post body element
+	var postBody = document.createElement("div");
+	postBody.setAttribute("class", "postBody");
+	div.appendChild(postBody);
+
+	// create the post text element
+	var postText = document.createElement("p");
+	postText.setAttribute("class", "postText");
+	postText.innerHTML = post.Bio;
+	postBody.appendChild(postText);
+
+	// create the post footer element
+	var postFooter = document.createElement("div");
+	postFooter.setAttribute("class", "postFooter");
+	div.appendChild(postFooter);
+
+	var likeButton = document.createElement("button");
+	likeButton.setAttribute("type", "button");
+	likeButton.setAttribute("class", "likeButton");
+	likeButton.innerHTML = "Like 👍: " + likesReceived;
+	postFooter.appendChild(likeButton);
+
+}
+
 function displayPost(parentElement, post)
 {
     //create post HTML elements
@@ -38,7 +88,7 @@ function displayPost(parentElement, post)
     var likeButton = document.createElement("button");
     likeButton.setAttribute("type", "button");
     likeButton.setAttribute("class", "likeButton");
-    likeButton.innerHTML = "Like 👍";
+    likeButton.innerHTML = "Like 👍: " + post.LikeCount + " ";
     div.appendChild(likeButton);
 }
 
@@ -170,7 +220,7 @@ function displayPostExperimental(parentElement, post, admin)
 				var likeButton = document.createElement("button");
 				likeButton.setAttribute("type", "button");
 				likeButton.setAttribute("class", "likeButton");
-				likeButton.innerHTML = "Like 👍";
+				likeButton.innerHTML = "Like 👍: " + post.LikeCount;
 				postFooter.appendChild(likeButton);
 			
 				var commentButton = document.createElement("button");
