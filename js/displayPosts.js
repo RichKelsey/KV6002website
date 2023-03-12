@@ -263,11 +263,19 @@ function displayPostExperimental(parentElement, post, admin)
 					});
 				});
 
+				//submit button sends the function "EditPost" the whole post and the ID of the post
 				var submitButton = document.createElement("button");
 				submitButton.setAttribute("type", "button");
 				submitButton.setAttribute("class", "commentButton");
 				submitButton.setAttribute("onclick", "EditPost(document.getElementById(" + post.PostID + "), " + post.PostID + ")");
 				submitButton.innerHTML = "Submit";
 				postFooter.appendChild(submitButton);
+
+				var deleteButton = document.createElement("button");
+				deleteButton.setAttribute("type", "button");
+				deleteButton.setAttribute("class", "commentButton");
+				deleteButton.setAttribute("onclick", "DeletePost(" + post.PostID + ")");
+				deleteButton.innerHTML = "Delete This Post";
+				postFooter.appendChild(deleteButton);
 			}
   }

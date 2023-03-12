@@ -337,7 +337,7 @@
 			function DownloadIndividual()
 			{
 				//query for actions of individuals
-				var queryIndividual = "SELECT A.ParticipantID, GroupID, Name, ProfilePic, Bio, PostID, HasLiked, RetentionTime, Comment " +
+				var queryIndividual = "SELECT GroupID, A.ParticipantID, Name, PostID, ProfilePic, Bio, HasLiked, RetentionTime, MaxTimeViewed, TimesViewed, Comment " +
 									"FROM Participant A " +
 									"JOIN Analytics B " +
 									"ON A.ParticipantID = B.ParticipantID";
@@ -475,6 +475,18 @@
 						window.alert("Post Updated. Refresh the page");
 					});
 				}
+			}
+
+			function DeletePost(postID)
+			{
+				var query = "DELETE FROM Post " +
+							"WHERE PostID =" + postID;
+
+				queryDB(query).then((json) => 
+				{
+					window.alert("Post Deleted");
+				});
+						
 			}
 
 			function UpdateURL()
