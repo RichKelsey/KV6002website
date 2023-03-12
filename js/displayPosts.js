@@ -232,6 +232,37 @@ function displayPostExperimental(parentElement, post, admin)
 			// add the submit button, if an admin
 			else 
 			{
+				var label = document.createElement("p");
+				label.innerHTML ="Like Count 👍: ";
+				postFooter.appendChild(label);
+
+
+				var likes = document.createElement("p");
+				likes.setAttribute("class", "likes");
+				likes.innerHTML = post.LikeCount;
+				postFooter.appendChild(likes);
+
+				likes.addEventListener("click", function() 
+				{
+
+					// create an input field
+					var input = document.createElement("input");
+					input.setAttribute("type", "number");
+					input.setAttribute("min", "0");
+					input.setAttribute("step", "1");
+					input.setAttribute("class", "postText");
+					input.value = likes.innerHTML;
+					postFooter.replaceChild(input, likes);
+			
+					// add event listener to the input field to detect when it loses focus
+					input.addEventListener("blur", function() 
+					{
+					// replace the input field with a new paragraph element containing the edited text
+					likes.innerHTML = input.value;
+					postFooter.replaceChild(likes, input);
+					});
+				});
+
 				var submitButton = document.createElement("button");
 				submitButton.setAttribute("type", "button");
 				submitButton.setAttribute("class", "commentButton");

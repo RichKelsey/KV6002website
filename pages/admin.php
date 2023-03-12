@@ -451,11 +451,13 @@
 				var usernameElement = post.querySelector('.username');
   				var postTextElement = post.querySelector('.postText');
 				var imgElement = post.querySelector('.img');
+				var likeCountElement = post.querySelector('.likes');
 
 
 				//retrieving only the text content of them. Excluding html
 				usernameElement = usernameElement.textContent;
 				postTextElement = postTextElement.textContent;
+				likeCountElement = likeCountElement.textContent;
 
 				//this is the case
 				if(avatar !== null)
@@ -463,6 +465,7 @@
 					var query = "UPDATE Post " +
 								"SET Username='" + usernameElement + "', " +
 								"Text='" + postTextElement + "', " +
+								"LikeCount='" + likeCountElement + "', " +
 								"ProfilePic='" + avatar + "' " +
 								"WHERE PostID=" + postID;
 
@@ -480,7 +483,7 @@
 				var query = "UPDATE URL SET URL='" + URL + "'";
 				queryDB(query).then((json) => 
 				{
-					window.alert("URL Updated.");
+					window.alert("URL Updated with. " + URL);
 				});
 			}
 
