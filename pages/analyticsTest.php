@@ -14,6 +14,11 @@
 	<script src="../js/dom.js"></script>
 	<script src="../js/postAnalytics.js"></script>
 	<script>
+        var query = "SELECT * FROM `Participant` WHERE `ParticipantID` = 1";
+        queryDB(query).then((post) => {
+            displaySelfPost("posts", post, 100);
+        });
+
 		var query = "SELECT * FROM Post";
 		queryDB(query).then((posts) => {
 			displayPosts("posts", posts);

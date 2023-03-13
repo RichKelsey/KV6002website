@@ -23,7 +23,7 @@ class Analytics
 
 	static update()
 	{
-		const posts = document.getElementsByClassName("post");
+		const posts = this.#getPosts();
 		if (posts.length == 0) return;
 
 		const visiblePosts       = getVisibleElements(posts, false);
@@ -156,6 +156,19 @@ class Analytics
 
 	}
 
+	static #postElements = null;
+	static #getPosts()
+	{
+		if (!this.#postElements) this.#postElements = document.getElementsByClassName("post");
+		const posts = [];
+		for (let i = 0; i < this.#postElements.length; i++) {
+			const postElement = this.#postElements[i];
+			if (postElement.id == "selfPost") continue;
+			posts.push(postElement);
+		}
+		return posts;
+	}
+
 	static #updatePostStats(visiblePosts)
 	{
 		for (const i in visiblePosts) {
@@ -211,6 +224,9 @@ class Analytics
 	{
 		const centerPostString = this.#getPostString(centerPost);
 
+		const parentElementID = "responseText";
+		if (!document.getElementById(parentElementID)) return;
+
 		var visiblePostsString = "";
 		for (let i = 0; i < visiblePosts.length; i++) {
 			visiblePostsString += this.#getPostString(visiblePosts[i]);
@@ -220,9 +236,6 @@ class Analytics
 		for (let i = 0; i < visiblePostsStrict.length; i++) {
 			visiblePostsStrictString += this.#getPostString(visiblePostsStrict[i]);
 		}
-
-		const parentElementID = "responseText";
-		if (!document.getElementById(parentElementID)) return;
 
 		// DOM manipulation
 		const centerPostH3 = createElementOnce(parentElementID, "h3", "centerPostH3");
@@ -272,6 +285,7 @@ class Analytics
 	}
 
 	static #likeButtonClassAttribute = null;
+	static #likeButtonTextParts = null;
 	static #updatePostLikeButton(post)
 	{
 		const postStats = this.#postsStats[post.id];
@@ -283,10 +297,20 @@ class Analytics
 		if (!this.#likeButtonClassAttribute) 
 			this.#likeButtonClassAttribute = likeButton.getAttribute("class");
 
-		if (postStats.hasLiked)
+		if (!this.#likeButtonTextParts)
+			this.#likeButtonTextParts = likeButton.innerText.split(":");
+
+		const text  = this.#likeButtonTextParts[0];
+		const likes = parseInt(this.#likeButtonTextParts[1]);
+		if (postStats.hasLiked) {
 			likeButton.setAttribute("class", this.#likeButtonClassAttribute + " button-on");
-		else
+			likeButton.innerText = text + ": " + (likes+1);
+		}
+		else {
 			likeButton.setAttribute("class", this.#likeButtonClassAttribute);
+			likeButton.innerText = text + ": " + likes;
+		}
+
 	}
 
 	static #updatePostCommentButton(post)
