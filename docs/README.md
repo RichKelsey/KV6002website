@@ -17,7 +17,9 @@ The index for the project's documentation.
 - [displayPosts.js][displayPosts.js]
 - [queryDB.js][queryDB.js]
 - [dom.js][dom.js]
+- [postAnalytics.js][postAnalytics.js]
 
 [displayPosts.js]: displayPosts.js.md
 [queryDB.js]: queryDB.js.md
 [dom.js]: dom.js.md
+[postAnalytics.js]: postAnalytics.js.md
