@@ -9,12 +9,13 @@
     <title>News Feed</title>
 </head>
 <body>
-<div id="postLayout"></div>
     <!-- include the js script for displaying posts -->
     <script src="../js/queryDB.js"></script>
     <script src="../js/displayPosts.js"></script>
     <script src="../js/dom.js"></script>
     <script src="../js/postAnalytics.js"></script>
+    <script src="../js/timer.js"></script>
+    <script src="../js/endHandler.js"></script>
     <script>
 
         var query = "SELECT * FROM `Participant` WHERE `ParticipantID` = 1";
@@ -28,5 +29,15 @@
         });
         setInterval(function() {Analytics.update()}, 200);
     </script>
+
+<div id="sidebar">
+    <h1>Newsfeed</h1>
+    <p id="timerLabel">Time remaining:</p>
+    <p id="timer"></p>
+    <button id="tutorialButton">Tutorial</button>
+    <button id="quitButton" onclick="endButtonHandler()">Quit</button>
+</div>
+
+<div id="postLayout">
 </body>
 </html>
