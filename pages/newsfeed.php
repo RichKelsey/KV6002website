@@ -28,6 +28,10 @@
             tutorialButton.addEventListener("click", function(){modalHandler(tutorialBox, closeTutorialButton)});
 
             quitButton.addEventListener("click", function(){endButtonHandler()});
+
+            let timerText = document.querySelector("#timer");
+            let timerDuration = 60 * 5;
+            timerHandler(timerDuration, timerText);
         }
 
         var query = "SELECT * FROM `Participant` WHERE `ParticipantID` = 1";
@@ -45,7 +49,7 @@
 <div id="sidebar">
     <h1>Newsfeed</h1>
     <p id="timerLabel">Time remaining:</p>
-    <p id="timer"></p>
+    <p id="timer">NAN</p>
     <button id="tutorialButton">Tutorial</button>
     <button id="quitButton">Quit</button>
 </div>

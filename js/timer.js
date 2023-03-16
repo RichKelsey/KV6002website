@@ -22,8 +22,3 @@ function timerHandler(duration, textElement) {
     setInterval(updateTimer, 1000);
 }
 
-window.onload = function () {
-    let timerText = document.querySelector("#timer");
-    let timerDuration = 60 * 5;
-    timerHandler(timerDuration, timerText);
-}
