@@ -204,3 +204,30 @@ body.experimental {
 .comment{
     padding: .5em;
 }
+
+#tutorialBox{
+	display: none;
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0,0,0,0.4);
+}
+
+.tutorialContent{
+	background-color: #202020;
+	float: right;
+	margin: 15% 15%;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 80%;
+	align-content: center;
+}
+
+.tutorialContent > h1, .tutorialContent > p{
+	text-align: center;
+	color: white;
+}
