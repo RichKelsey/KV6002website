@@ -15,15 +15,25 @@ function handleaction()
 
 	switch ($data["action"]) {
 	case "upload": 
-		if (!isset($data["data"])) {
-			log_error("No data uploaded.");
-			break;
-		}
-		db_uploadAnalytics($data["data"], 1);
-		break;
+		if (!isset($data["data"])) goto nodata;
+
+		$stats         = $data["data"]["postStats"];
+		$participantID = $data["data"]["participantID"];
+
+		db_uploadAnalytics($stats, $participantID);
+		return;
+	case "getParticipantGroup": 
+		if (!isset($data["data"])) goto nodata;
+
+		db_getParticipantGroup($data["data"]["participantID"]);
+		return;
 	default:
 		log_error("db_analytics.php: invalid action");
+		return;
 	}
+
+	nodata:
+	log_error("No data uploaded.");
 }
 
 function db_uploadAnalytics($postsStats, $participantID)
@@ -84,16 +94,15 @@ function db_updatePostStat($dbh, $analyticsID, $postStats)
 			`AnalyticsID` = :AnalyticsID";
 
 	$statement = $dbh->prepare($sql);
-	$statement->execute([
+	if ($statement->execute([
 		':AnalyticsID'   => $analyticsID,
 		':HasLiked'      => (int)$postStats["hasLiked"],
 		':RetentionTime' => $postStats["retentionTime"],
 		':MaxTimeViewed' => $postStats["maxTimeViewed"],
 		':TimesViewed'   => $postStats["timesViewed"],
 		':Comment'       => $postStats["comment"]
-	]);
-
-	log_print("Updated AnalyticsID: " . $analyticsID);
+	])) log_print("Updated AnalyticsID: " . $analyticsID);
+	else log_error("Error updating AnalyticsID: " . $analyticsID);
 
 	$statement = null;
 }
@@ -121,7 +130,7 @@ function db_insertPostStat($dbh, $postID, $participantID, $postStats)
 		)";
 
 	$statement = $dbh->prepare($sql);
-	$statement->execute([
+	if ($statement->execute([
 		':PostID'        => $postID,
 		':ParticipantID' => $participantID,
 		':HasLiked'      => (int)$postStats["hasLiked"],
@@ -129,10 +138,48 @@ function db_insertPostStat($dbh, $postID, $participantID, $postStats)
 		':MaxTimeViewed' => $postStats["maxTimeViewed"],
 		':TimesViewed'   => $postStats["timesViewed"],
 		':Comment'       => $postStats["comment"]
-	]);
-
-	log_print("Inserted new analytics");
+	])) log_print("Inserted new analytics");
+	else log_error("Error inserting analytics");
 
 	$statement = null;
+}
+
+function db_getParticipantGroup($participantID)
+{
+	$dbh = db_connect();
+	if (!$dbh) {
+		log_error("db_getParticipantGroup(): Can't connect to database");
+		return;
+	}
+
+	$sql = "SELECT `GroupID` FROM `Participant` WHERE ParticipantID = :ParticipantID";
+
+	$statement = $dbh->prepare($sql);
+	$statement->execute([
+		':ParticipantID' => $participantID
+	]);
+
+	$result = $statement->fetchAll(PDO::FETCH_ASSOC);
+	if (!$result) goto fail;
+	
+	$groupID = $result[0]["GroupID"];
+
+	$sql = "SELECT * FROM `Group` WHERE GroupID = :GroupID";
+
+	$statement = $dbh->prepare($sql);
+	$statement->execute([
+		'GroupID' => $groupID
+	]);
+
+	$result = $statement->fetchAll(PDO::FETCH_ASSOC);
+	if (!$result) goto fail;
+
+	echo json_encode($result[0]);
+	$statement = null;
+	return;
+
+	fail:
+	log_error("db_getParticipantGroup(): Error Getting participantID or group");
+	echo json_encode(null);
 }
 ?>

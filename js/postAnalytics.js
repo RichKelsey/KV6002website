@@ -20,9 +20,16 @@ function PostState() {
 class Analytics
 {
 	static #postsStats = {};
+	static #participantID = null;
+	static #group = null;
+
+	static #ready = false;
 
 	static update()
 	{
+		this.#init();
+		if (!this.#ready) return;
+
 		const posts = this.#getPosts();
 		if (posts.length == 0) return;
 
@@ -80,6 +87,8 @@ class Analytics
 
 		postStats.hasLiked = postStats.hasLiked? false : true;
 
+		if (!this.#updateLikesAllowance(post)) return;
+
 		this.#updatePostLikeButton(post);
 	}
 
@@ -117,13 +126,15 @@ class Analytics
 		postFooter.appendChild(commentDiv);
 	}
 
-	static interfaceDB(action)
+	static interfaceDB(action, data = null)
 	{
 		const URL = "../php/db_analytics.php";
 
-		var data = null;
 		if (action == "upload") {
-			data = this.getStatistics();
+			data = {
+				participantID: this.#participantID,
+				postStats: this.getStatistics()
+			};
 		};
 
 		var action = {
@@ -142,18 +153,43 @@ class Analytics
 				return response.text();
 			})
 			.then((data) => {
-				console.log('Success:', data);
-				const responseH3 = createElementOnce("responseText", "h3", "responseH3");
-				responseH3.innerText = "Response:";
+				const parentElementID = "responseText";
+				if (document.getElementById(parentElementID)) {
+					const responseH3 = createElementOnce(parentElementID, "h3", "responseH3");
+					responseH3.innerText = "Response:";
 
-				const responseDiv = createElementOnce("responseText", "div", "responseDiv");
-				responseDiv.innerHTML = data;
-
+					const responseDiv = createElementOnce(parentElementID, "div", "responseDiv");
+					responseDiv.innerHTML = data;
+				}
+				
+				const object = JSON.parse(data);
+				if (object) return object;
+				return null;
 			})
 			.catch((error) => {
 				console.error('Error:', error);
 			});
+	}
 
+	static #initialized = false;
+	static #init()
+	{
+		if (this.#initialized) return false;
+		this.#initialized = true;
+		this.#participantID = sessionStorage.getItem("participantID")? parseInt(sessionStorage.getItem("participantID")) : 1;
+
+		console.log("Analytics init");
+		this.interfaceDB('getParticipantGroup', {participantID : this.#participantID}).then((group) => {
+			this.#group = group;
+			console.log(this.#group);
+			if (this.#postsStats) {
+				for (const i in this.#postsStats) {
+					this.#group.LikesAllowance -= this.#postsStats[i].hasLiked;
+				}
+			}
+			console.log(this.#group);
+			this.#ready = true;
+		});
 	}
 
 	static #postElements = null;
@@ -218,6 +254,21 @@ class Analytics
 
 			postState.inView = postInView;
 		}
+	}
+
+	static #updateLikesAllowance(post) {
+		// still allow update of post button if there is no group info
+		if (!this.#group) return true;
+		const postStats = this.#postsStats[post.id];
+
+		if (postStats.hasLiked && !this.#group.LikesAllowance) {
+			postStats.hasLiked = false;
+			return false;
+		}
+
+		this.#group.LikesAllowance += postStats.hasLiked? -1 : 1;
+
+		return true;
 	}
 
 	static #updateResponseText(visiblePosts, visiblePostsStrict, centerPost)
