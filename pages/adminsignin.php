@@ -9,13 +9,13 @@
 	</head>
 <?php
     session_start();
-    //check if the user is already logged in
-    // if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) 
-    // {
-    //     //redirect to another page if the user is already logged in
-    //     header('Location: http://localhost:8000/pages/admin.php');
-    //     exit;
-    // }
+    //heck if the user is already logged in
+    if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === 1) 
+    {
+        //redirect to another page if the user is already logged in
+        header('Location: http://localhost:8000/pages/admin.php');
+        exit;
+    }
 
     //connect to the database
     require_once("../php/db_connection.php");
@@ -49,14 +49,15 @@
             if (password_verify($password, $hash)) 
             {
                 //if password is correct, set session variables and redirect
-                $_SESSION['logged_in'] = true;
+                $_SESSION['logged_in'] = 1;
                 header('Location: http://localhost:8000/pages/admin.php');
-                //exit;
+                exit;
             } 
             else 
             {
                 //password is incorrect, display an error message
                 echo 'Incorrect username or password. Please try again.';
+                $_SESSION['logged_in'] = 0;
             }
 
         }

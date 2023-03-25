@@ -30,12 +30,11 @@
 			if(!isset($_SESSION['logged_in']))
 			{
 				header('Location: http://localhost:8000/pages/adminsignin.php');
-
+			}
+			else if($_SESSION['logged_in'] == 0)
+			{
 				//if the user is not logged in, send him to log in
-				if(!$_SESSION['logged_in'])
-				{
-					header('Location: http://localhost:8000/pages/adminsignin.php');
-				}
+				header('Location: http://localhost:8000/pages/adminsignin.php');
 			}
 
 
