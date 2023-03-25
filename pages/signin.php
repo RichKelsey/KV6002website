@@ -19,9 +19,9 @@ echo '<div class="login">';
         echo '<input type="submit" value="Next" class="dropbtn">';
     echo '</form>';
 echo '</div>';
-if(isset($_POST['GroupID']))
+if(isset($_GET['GroupID']))
 {
-    $GroupID = $_POST['GroupID'];
+    $GroupID = $_GET['GroupID'];
     $_SESSION['GroupID'] = $GroupID;
 }
 
