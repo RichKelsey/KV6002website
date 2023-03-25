@@ -1,6 +1,10 @@
+[AdminDashboard-Instructions.md]: AdminDashboard-Instructions.md
 # Project Documentation
 
 The index for the project's documentation.
+## User Manual
+- [AdminDashboard-Instructions.md][AdminDashboard-Instructions.md]
+
 
 ## php
 
