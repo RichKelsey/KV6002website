@@ -129,7 +129,12 @@ body{
     top: 0px;
     right: 0%;
 }
-
+.login{
+    position: fixed; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 
 
 /* Links inside the dropdown */

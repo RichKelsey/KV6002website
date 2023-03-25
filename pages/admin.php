@@ -24,7 +24,19 @@
 		</div>
 
 		<?php 
+			session_start();
 
+			//if the session variable logged_in isn't set, send the user to log in
+			if(!isset($_SESSION['logged_in']))
+			{
+				header('Location: http://localhost:8000/pages/adminsignin.php');
+
+				//if the user is not logged in, send him to log in
+				if(!$_SESSION['logged_in'])
+				{
+					header('Location: http://localhost:8000/pages/adminsignin.php');
+				}
+			}
 
 
 			$directory="../img/avatars/";
