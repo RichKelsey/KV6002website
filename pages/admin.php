@@ -29,12 +29,12 @@
 			//if the session variable logged_in isn't set, send the user to log in
 			if(!isset($_SESSION['logged_in']))
 			{
-				header('Location: http://localhost:8000/pages/adminsignin.php');
+				header('Location: adminsignin.php');
 			}
 			else if($_SESSION['logged_in'] == 0)
 			{
 				//if the user is not logged in, send him to log in
-				header('Location: http://localhost:8000/pages/adminsignin.php');
+				header('Location: adminsignin.php');
 			}
 
 
@@ -111,7 +111,7 @@
 							echo "<option value='$key'> Group $key </option>";
 						}
 						echo'
-						<option value="http://localhost:8000/pages/AddGroup.html"> Create a new Group</option>
+						<option value="AddGroup.html"> Create a new Group</option>
 						</select>
 
 						<br><br>
@@ -427,9 +427,9 @@
 			{
 				var selectElement = document.getElementById("Group");
 				var selectedOption = selectElement.value;
-				if(selectedOption == "http://localhost:8000/pages/AddGroup.html")
+				if(selectedOption == "AddGroup.html")
 					{
-						window.location.href = selectedOption;
+						window.location.replace("AddGroup.html");
 					}
 
 			}
