@@ -176,7 +176,7 @@ class Analytics
 	{
 		if (this.#initialized) return false;
 		this.#initialized = true;
-		this.#participantID = sessionStorage.getItem("participantID")? parseInt(sessionStorage.getItem("participantID")) : 1;
+		this.#participantID = (sessionStorage.getItem("participantID") === null)? parseInt(sessionStorage.getItem("participantID")) : 1;
 
 		console.log("Analytics init");
 		this.interfaceDB('getParticipantGroup', {participantID : this.#participantID}).then((group) => {
@@ -187,7 +187,6 @@ class Analytics
 					this.#group.LikesAllowance -= this.#postsStats[i].hasLiked;
 				}
 			}
-			console.log(this.#group);
 			this.#ready = true;
 		});
 	}
