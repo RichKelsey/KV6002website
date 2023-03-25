@@ -1,11 +1,11 @@
 <?php
-define("DEBUG", null);
+//define("DEBUG", null);
 define("LOG_FILE", __DIR__ . "/../php.log");
 define("PREFIX_ERROR", "Error: ");
 
 function log_print($string)
 {
-	if(defined("DEBUG")) {
+	if(defined("DEBUG") && !defined("NO_ECHO")) {
 		echo $string . "<br>";
 		return;
 	}

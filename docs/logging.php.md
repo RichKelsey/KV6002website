@@ -5,11 +5,15 @@
 Logging writes to ``php.log`` in the project root if the ``DEBUG`` constant is not
 defined.
 
-The ``DEBUG`` constant is defined at the top of ``logging.php``:
+The ``DEBUG`` constant can defined if un-commented at the top of
+``logging.php``:
 
 ```php
-define("DEBUG", null);
+//define("DEBUG", null);
 ```
+
+In addition , defining the ``NO_ECHO`` constant will suppress log echos if
+needed.
 
 ## Examples
 
