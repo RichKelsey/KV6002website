@@ -29,6 +29,6 @@
 - ``Username`` is stored in database column ``Username``
 - ``Group ID`` is stored in database column ``GroupID``
 - ``Post`` refers to the text content of a post. Stored in database column ``Text``
-- **``Upload Image (optional)``** is stored in database column ``Image`` **as "NoImg"** 
+- **``Upload Image (optional)``** is stored in database column ``Image`` **as "Null"** 
 - ``Select an avatar`` is stored in database column ``ProfilePic`` **as** a **path** to the selected avatar
 
