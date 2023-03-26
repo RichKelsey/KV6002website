@@ -135,6 +135,9 @@ body{
     left: 50%;
     transform: translate(-50%, -50%);
 }
+.link{
+  color: rgb(204, 204, 204); 
+}
 
 
 /* Links inside the dropdown */

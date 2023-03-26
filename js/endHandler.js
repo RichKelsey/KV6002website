@@ -1,7 +1,7 @@
 function redirect(){
     Analytics.storeStatistics();
     Analytics.interfaceDB("upload");
-    window.location.replace("../endscreen.html");
+    window.location.replace("endscreen.php");
 }
 
 function endButtonHandler() {
