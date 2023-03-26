@@ -15,6 +15,9 @@ function PostState() {
 	this.canBeViewed = false;
 	this.inView = false;
 	this.lastTime = 0;
+
+	this.likeButtonClassAttribute = null;
+	this.likeButtonTextParts = null;
 }
 
 class Analytics
@@ -344,30 +347,29 @@ class Analytics
 			"\n";
 	}
 
-	static #likeButtonClassAttribute = null;
-	static #likeButtonTextParts = null;
 	static #updatePostLikeButton(post)
 	{
 		const postStats = this.#postsStats[post.id];
+		const postState = postStats.state;
 		const likeButton = post.getElementsByClassName("likeButton")[0];
 
 		if (!likeButton.getAttribute("onclick"))
 			likeButton.setAttribute("onclick", "Analytics.like(document.getElementById(" + post.id + "))");
 
-		if (!this.#likeButtonClassAttribute) 
-			this.#likeButtonClassAttribute = likeButton.getAttribute("class");
+		if (!postState.likeButtonClassAttribute) 
+			postState.likeButtonClassAttribute = likeButton.getAttribute("class");
 
-		if (!this.#likeButtonTextParts)
-			this.#likeButtonTextParts = likeButton.innerText.split(":");
+		if (!postState.likeButtonTextParts)
+			postState.likeButtonTextParts = likeButton.innerText.split(":");
 
-		const text  = this.#likeButtonTextParts[0];
-		const likes = parseInt(this.#likeButtonTextParts[1]);
+		const text  = postState.likeButtonTextParts[0];
+		const likes = parseInt(postState.likeButtonTextParts[1]);
 		if (postStats.hasLiked) {
-			likeButton.setAttribute("class", this.#likeButtonClassAttribute + " button-on");
+			likeButton.setAttribute("class", postState.likeButtonClassAttribute + " button-on");
 			likeButton.innerText = text + ": " + (likes+1);
 		}
 		else {
-			likeButton.setAttribute("class", this.#likeButtonClassAttribute);
+			likeButton.setAttribute("class", postState.likeButtonClassAttribute);
 			likeButton.innerText = text + ": " + likes;
 		}
 
