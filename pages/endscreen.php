@@ -39,8 +39,6 @@ if (isset($_POST['confirm_delete']))
     //exit();
     
 }
-echo "DELETE FROM Participant WHERE ParticipantID = '$ParticipantID'<br>";
-print_r($_POST);
 if (isset($_POST['confirm_delete'])) {
     $confirmDelete = $_POST['confirm_delete'];
 }

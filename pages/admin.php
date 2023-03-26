@@ -448,7 +448,7 @@
 				popup.style.transform = "scale(0.5)";
 				popup.style.opacity = "0";
 				
-				// Wait for the transition to complete before hiding the popup
+				//wait for the transition to complete before hiding the popup
 				setTimeout(function() {
 					popup.style.display = "none";
 				}, 300);

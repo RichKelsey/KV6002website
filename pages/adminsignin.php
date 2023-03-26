@@ -5,7 +5,7 @@
 		<link rel="stylesheet" href="../css/admin.css"> 
 		<link rel="stylesheet" href="../css/newsfeed.css"> 
 		<meta charset="utf-8">
-		<title> Administrator Dashboard </title>
+		<title> Administrator SignIn</title>
 	</head>
 <?php
     session_start();
