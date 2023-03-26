@@ -1,108 +1,163 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  h1 {
-    font-size: 90px;
-    font-weight: 700px;
-    background-image: linear-gradient(to left, #553c9a, #b393d3);
-    color: transparent;
-    background-clip: text;
-    -webkit-background-clip: text;
-  }
-  
-  button:hover{
-    background-color: rgb(110, 101, 101);
-  }
-  
-  .button-on {
-    background-color: rgb(138, 159, 195);
-  border-radius: 14px;
-  }
-  
-  body {
-    background-color: #c1c9d0;
-    font-style: normal;
-    transform-style: flat;
-    text-align: center;
-    text-size-adjust: 25px;
-    font-family: "Oswald", Helvetica, Arial, sans-serif;
-    font-weight: 300;
-    text-transform:uppercase;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction:column;
-    justify-content: center;
-    align-items: center;
-    font-variant-position: normal;
-    
-  }
-  
-  html, body, .main {
-  height: 100%;
-  }
-  
-  .avatars {
-    display: flex;
-    flex-wrap: wrap;
-    width: 60px;
-    border: 1px solid black;
-  }
-  
-  
-  #bottomContent {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  height: 100vh;
-  background: #05011d;
-  }
-  
-  #bio{
-  width: 1000px;
-  overflow: auto;
-  resize: auto; 
-  height: 100px;
-  }
-  
-  .text{
-    line-height: 2;
-    overflow-wrap: break-word;
-    letter-spacing: 0px;
-    tab-size: 1;
-    text-align: left;
-    text-decoration: overline wavy;
-    text-indent: 9px;
-    white-space: pre-wrap;
-  }
-  
-  #username{
-    width: 50px;
-    overflow: auto;
-    resize: auto; 
-    height: 45px
-  }
-  
-  button{
-    background-color: rgb(78, 78, 78);
-    border: 1px solid rgb(148, 148, 148);
-    border-radius: 7px;
-    padding: 5px;
-    transition: 0.3s;
-    color: white;
-    margin: 0px 1em 0px 0px;
-    width: 100px;
-    height: 40px;
-  }
-  
-  button:hover{
-    background-color: rgb(107, 107, 107);
-  }
-  
-  .button-on {
-    background-color: rgb(78, 107, 78);
-  border-radius: 14px;
-  }
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="../css/userprofile.css">
+    <meta charset="utf-8">
+    <title>user profile creation</title>
+    <h1>Create your profile</h1>
+</head>
+
+<body>
+    <?php
+
+    //connect to the database
+
+    require("../php/db_connection.php");
+    $db = db_connect();
+
+    // Check if connection successful
+     if (!$db) die("Can't connect to database");
+
+
+
+    // Get the maximum ID from the users table
+     $sql = "SELECT MAX(id) as max_id FROM users";
+     $result = mysqli_query($query, $conn);
+
+    // Check if query was successful
+    if (mysqli_num_rows($result) > 0) {
+       $row = mysqli_fetch_assoc($result);
+        $PartcipantID = $row['max_id'] + 1; // Create a new ID by adding 1 to the maximum ID
+    } else {
+       $PartcipantID = 1; // If the table is empty, start the IDs from 1
+    }
+
+    // Get user data from the form
+    $username = $_POST['username'];
+    $bio = $_POST['bio'];
+
+
+    // Validate input
+    if (empty($username) || empty($bio)) {
+    // Error: All fields are required
+     echo "All fields are required";
+      } elseif (strlen($bio) > 400) {
+    // Error: Bio must be at least 400 characters
+       echo "Bio must be at least 400 characters";
+     }
+
+
+    // randomly allocate user to a group
+     $group = $db->query('SELECT GroupID FROM Group');
+
+
+    ?>
+    <script src="../js/participantdata.js"></script>
+    <script>
+        //Allow only one checkbox to be selected
+
+        function selectOnlyOne(checkbox) {
+            var checkboxes = document.getElementsByName('avatar[]');
+            checkboxes.forEach((item) => {
+                if (item !== checkbox) item.checked = false;
+            });
+        }
+
+        //Check if an avatar has been selected
+
+        function validateForm() {
+            var checkboxes = document.getElementsByName("avatar[]");
+            var checked = false;
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].checked) {
+                    checked = true;
+                    break;
+                }
+            }
+            if (!checked) {
+                alert("Please select an Avatar to continue.");
+                return false;
+            }
+        }
+    </script>
+
+    <form>
+
+        <fieldset>
+            <legend>Create Profile</legend>
+            <div class="col-auto">
+                <label for="TextInput" class="form-label">Username</label>
+                <input id='usernamen' type="text" id="TextInput" class="form-control" placeholder="">
+            </div>
+            <div class="mb-3">
+                <label for="TextInput" class="form-label">Bio</label>
+                <input id='bio' type="text" id="TextInput" class="form-control" placeholder="">
+            </div>
+
+
+
+        </fieldset>
+
+    </form>
+
+    <button class='button' id="btn" onclick="myFunction()"> Select Avatar </button>
+    <p id="avatar1">
+
+        <?php
+
+        $tmp = 0;
+
+        $directory = "../img/avatars/";
+        $files = array();
+
+        //display all available avatars
+        foreach (scandir($directory) as $file) {
+            if ($file !== '.' && $file !== '..') {
+                $files[] = $file;
+                echo "<img src='../img/avatars/$file'" . "width='80' height='80' />";
+            } else {
+
+                echo "<img id='avatar' name='avatar[]' value='{$file}' onclick='AvatarSelection(\"$file\")'>";
+                echo "</div>";
+            }
+        }
+        $tmp += 1;
+        ?>
+    </p>
+
+
+
+
+    <button class='button' onclick="location.href='../login.php'">Return to Login Page</button>
+    <button class='button' onclick="location.href='../pages/newsfeed.php'">Complete your profile </button>
+
+
+</body>
+
+<script>
+    function myFunction() {
+        document.getElementById("avatar1");
+
+    }
+</script>
+
+
+<script>
+    const btn = document.getElementById('btn');
+
+    btn.addEventListener('click', () => {
+        const form = document.getElementById('avatar1');
+
+        if (form.style.display === 'none') {
+            //  this SHOWS the form
+            form.style.display = 'block';
+        } else {
+            //  this HIDES the form
+            form.style.display = 'none';
+        }
+    });
+</script>
+
+
+</html>
