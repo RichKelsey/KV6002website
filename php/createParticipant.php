@@ -33,8 +33,12 @@ foreach($details as $detail) {
 $profilePic = AVATAR_DIRECTORY . $profilePic[0];
 
 createNewParticipant($dbh, $groupID, $username, $profilePic, $bio);
+
+session_start();
+$participantID = getMaxParticipantID($dbh);
+$_SESSION["participantID"] = $participantID;
 // return new participant ID
-echo getMaxParticipantID($dbh);
+echo $participantID;
 
 $dbh = null;
 //
