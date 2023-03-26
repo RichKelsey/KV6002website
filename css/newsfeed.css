@@ -1,3 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+*{
+	font-family: 'Open Sans', sans-serif;
+}
+
+
 #postLayout{
     display: grid;
     grid-template-columns: 40%;
@@ -119,6 +126,7 @@ body.experimental {
 		width: 100%;
 		height: auto;
 		position: relative;
+		display: inline-block;
 	}
 
 	#postLayout {
@@ -219,15 +227,93 @@ body.experimental {
 
 .tutorialContent{
 	background-color: #202020;
-	float: right;
 	margin: 15% 15%;
 	padding: 20px;
 	border: 1px solid #888;
 	width: 80%;
 	align-content: center;
+	display: inline-block;
+}
+
+.tutorialContent > button{
+	float: right;
 }
 
 .tutorialContent > h1, .tutorialContent > p{
 	text-align: center;
 	color: white;
 }
+
+/* The switch - the box around the slider */
+.switch {
+	margin: .5em;
+	position: relative;
+	display: inline-block;
+	width: 30px;
+	height: 17px;
+	top: .7em;
+  }
+  
+  /* Hide default HTML checkbox */
+  .switch input {
+	opacity: 0;
+	width: 0;
+	height: 0;
+  }
+  
+  /* The slider */
+  .slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #ccc;
+	-webkit-transition: .4s;
+	transition: .4s;
+  }
+  
+  .slider:before {
+	position: absolute;
+	content: "";
+	height: 13px;
+	width: 13px;
+	left: 2px;
+	bottom: 2px;
+	background-color: white;
+	-webkit-transition: .4s;
+	transition: .4s;
+  }
+  
+  input:checked + .slider {
+	background-color: #2196F3;
+  }
+  
+  input:focus + .slider {
+	box-shadow: 0 0 1px #2196F3;
+  }
+  
+  input:checked + .slider:before {
+	transform: translateX(13px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+	border-radius: 17px;
+  }
+  
+  .slider.round:before {
+	border-radius: 50%;
+  }
+
+  #switchDiv{
+	  display: flex;
+	  white-space: nowrap;
+	  justify-content: center;
+  }
+
+  .nightmode {
+	  background-color: #282828;
+	  color: white;
+  }

@@ -7,6 +7,11 @@ function timerHandler(duration, textElement) {
         minutes = Math.floor(startDelta / 60);
         seconds = startDelta % 60;
 
+        if(minutes == 0 && seconds == 0){
+            console.log("Timer Ended");
+            redirect();
+        }
+
         if (startDelta <= 0) {
             textElement.innerHTML = "00:00";
             return;
@@ -15,10 +20,9 @@ function timerHandler(duration, textElement) {
         textElement.innerHTML = (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
     }
 
+    
     updateTimer();
-    if(textElement.innerHTML == "00:00"){
-        redirect();
-    }
+    
     setInterval(updateTimer, 1000);
 }
 
