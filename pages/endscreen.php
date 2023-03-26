@@ -16,30 +16,31 @@ else
     exit();
 }
 // check if the delete button was clicked
-if (isset($_POST['delete_data'])) {
+if (isset($_POST['confirm_delete']))
+{
     // check if the confirmation checkbox is ticked
-    if (isset($_POST['confirm_delete'])) {
-        // the user confirmed that they want to delete their data
-        // delete the user's data from the database here
+
+    // the user confirmed that they want to delete their data
+    // delete the user's data from the database here
 
 
 
-        //connect to the database
-        require_once("../php/db_connection.php");
-        $db = db_connect();
+    //connect to the database
+    require_once("../php/db_connection.php");
+    $db = db_connect();
 
-        //check if connection successful
-        if (!$db) die("Can't connect to database");
+    //check if connection successful
+    if (!$db) die("Can't connect to database");
 
-        $sql = "DELETE FROM Participant WHERE ParticipantID = $ParticipantID";
-        db_query($sql, $db);
-        // redirect the user to a confirmation page
-        //header('Location: delete_confirmation.php');
-        //exit();
-    } 
+    $sql = "DELETE FROM Participant WHERE ParticipantID = '$ParticipantID'";
+    db_query($sql, $db);
+    // redirect the user to a confirmation page
+    //header('Location: delete_confirmation.php');
+    //exit();
+    
 }
-
-
+echo "DELETE FROM Participant WHERE ParticipantID = '$ParticipantID'<br>";
+print_r($_POST);
 if (isset($_POST['confirm_delete'])) {
     $confirmDelete = $_POST['confirm_delete'];
 }
