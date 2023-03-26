@@ -25,6 +25,11 @@ class Analytics
 
 	static #ready = false;
 
+	static isReady()
+	{
+		return this.#ready;
+	}
+
 	static update()
 	{
 		this.#init();
@@ -172,7 +177,7 @@ class Analytics
 				return null;
 			})
 			.catch((error) => {
-				console.error('Error:', error);
+				console.log('Error when parsing response:', error);
 			});
 	}
 
