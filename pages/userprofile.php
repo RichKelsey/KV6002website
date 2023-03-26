@@ -9,6 +9,9 @@
 <body >
 
 <?php
+// Set to 1 to show GroupID in the form
+define("SHOW_GROUP", 0);
+
 session_start();
 $username = isset($_SESSION['username'])? $_SESSION['username'] : null;
 $groupID  = isset($_SESSION['GroupID'])? $_SESSION['GroupID'] : null;
@@ -29,9 +32,9 @@ if($username === null || $groupID === null)
 				style="background: transparent; color: lightgrey; border: none" 
 				value="<?php echo $username; ?>"
 			>
-			<label for="groupID">GroupID:</label>
+			<label for="groupID" style="<?php echo SHOW_GROUP? "" : "display: none;"; ?>">GroupID:</label>
 			<input type="text" id="groupID" name="groupID" required readonly
-				style="background: transparent; color: lightgrey; border: none" 
+			style="<?php echo SHOW_GROUP? "" : "display: none;"; ?> background: transparent; color: lightgrey; border: none" 
 				value="<?php echo $groupID; ?>"
 			>
 		</div>
