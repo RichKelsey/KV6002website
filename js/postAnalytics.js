@@ -176,12 +176,12 @@ class Analytics
 	{
 		if (this.#initialized) return false;
 		this.#initialized = true;
-		this.#participantID = (sessionStorage.getItem("participantID") === null)? parseInt(sessionStorage.getItem("participantID")) : 1;
+		this.#participantID = (sessionStorage.getItem("participantID") !== null)? parseInt(sessionStorage.getItem("participantID")) : 1;
 
-		console.log("Analytics init");
+		console.log("Analytics init, ParticipantID: " + this.#participantID);
 		this.interfaceDB('getParticipantGroup', {participantID : this.#participantID}).then((group) => {
 			this.#group = group;
-			console.log(this.#group);
+			console.log("Analytics Group: " + this.#group.GroupID);
 			if (this.#postsStats) {
 				for (const i in this.#postsStats) {
 					this.#group.LikesAllowance -= this.#postsStats[i].hasLiked;
