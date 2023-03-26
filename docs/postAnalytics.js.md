@@ -127,6 +127,22 @@ This function has no parameters.
 This function returns an Object containing post analytics in key-value pairs,
 or null if there nothing is found from the session storage.
 
+## Analytics.getGroup
+
+```JavaScript
+Analytics.getGroup(): Object
+```
+
+This function returns a copy of the participant's runtime group state.
+
+### Parameters
+
+This function has no parameters.
+### Return Values
+
+This function returns an object which is a copy of an internal Analytics object
+attribute.
+
 ## Analytics.deleteStatistics
 
 ```JavaScript
@@ -146,7 +162,7 @@ This function doesn't return anything.
 ## Analytics.interfaceDB
 
 ```JavaScript
-Analytics.interfaceDB(string action): //no return
+Analytics.interfaceDB(string action, Object data = null): //no return
 ```
 
 This function is used to perform a database action, depending on the string
@@ -160,6 +176,9 @@ as HTML within the element.
 
 **action**
 - action is a string defining the database action to be performed.
+
+**data**
+- data is an object containing additional data that might be needed
 
 ### Return Values
 

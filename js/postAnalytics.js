@@ -76,6 +76,11 @@ class Analytics
 		return JSON.parse(string);
 	}
 
+	static getGroup()
+	{
+		return structuredClone(this.#group);
+	}
+
 	static deleteStatistics()
 	{
 		sessionStorage.removeItem(ANALYTICS_STORAGE);
