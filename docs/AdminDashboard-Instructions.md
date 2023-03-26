@@ -70,3 +70,7 @@
 * After the post was edited **And an avatar was selected** pressing submit updates the post to the new values.
 * Pressing ``Delete This Post`` will permanently delete that post.
 
+## Send link to survey:
+* The survey link will end with ``/pages/signin.php`` 
+* Before sending to link, you need to modify the link ``/pages/signin.php?GroupID=x`` ``WHERE x is the group to which you want to assign participants who click the link
+* **The Group ID number 'x' must exist in the database. The group must be created to be assigned in a link. 
