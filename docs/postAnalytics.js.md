@@ -45,6 +45,26 @@ before you upload to the database, as calling
 
 ---
 
+## Analytics.isReady
+
+```JavaScript
+Analytics.isReady(): bool
+```
+
+This function returns whether or not the Analytics class is ready and has
+fetched needed information from the database.
+
+At the moment it is only useful for use with ``getGroup()``.
+
+### Parameters
+
+This function has no parameters.
+
+### Return Values
+
+This function returns a boolean representing whether or not analyttics is
+ready.
+
 ## Analytics.update
 
 ```JavaScript
@@ -166,8 +186,8 @@ Analytics.interfaceDB(string action, Object data = null): //no return
 ```
 
 This function is used to perform a database action, depending on the string
-``action``. At the moment, the only action is "upload", which uploads the
-analytics in the session storage to the backend.
+``action``. This function sends post requests to
+[db_analytics.php][db_analytics.php], where the actions are defined.
 
 If there is an element with the id "responseText", it will insert the response
 as HTML within the element.

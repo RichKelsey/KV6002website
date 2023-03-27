@@ -11,10 +11,12 @@ The index for the project's documentation.
 - [db_connection.php][db_connection.php]
 - [logging.php][logging.php]
 - [ProcessUpload.php][ProcessUpload.php]
+- [db_analytics.php][db_analytics.php]
 
 [db_connection.php]: db_connection.php.md
 [logging.php]: logging.php.md
 [ProcessUpload.php]: ProcessUpload.php.md
+[db_analytics.php]: db_analytics.php.md
 
 ## JS
 
