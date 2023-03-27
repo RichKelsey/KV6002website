@@ -43,8 +43,8 @@
     // Error: All fields are required
      echo "All fields are required";
       } elseif (strlen($bio) > 400) {
-    // Error: Bio must be at least 400 characters
-       echo "Bio must be at least 400 characters";
+    // Error: Bio must be maximum 400 characters
+       echo "Bio must be maximum 400 characters";
      }
 
 
