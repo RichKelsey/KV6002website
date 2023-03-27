@@ -15,6 +15,11 @@ This project requires:
 - A webserver with PHP support
 - A server hosting a MySQL database with the phpMyAdmin administration tool
 
+## Admin Login:
+
+Username: ``testadmin1``
+Password: ``Northumbria!1``
+
 # Installation
 
 ## phpMyAdmin
