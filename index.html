@@ -6,13 +6,22 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1" />
 		<meta name="description" content="" />
 		<link rel="icon" href="favicon.png">
+		<link rel="stylesheet" href="css/newsfeed.css" />
 	</head>
 	<body>
-		<h1>Home page to placeholder pages<h1>
+		
+		<script>
+			function userRedirect(){
+				window.location.replace("pages/signin.php");
+			}
 
-				<a href="pages/page1.html">Page 1</a>
-				<a href="pages/page2.html">Page 2</a>
-				<a href="pages/page3.html">Page 3</a>
-
+			function adminRedirect(){
+				window.location.replace("pages/adminsignin.php");
+			}
+		</script>
+		<div class="index">
+			<input type="button" value="User" onclick="userRedirect()" />
+			<input type="button" value="Admin" onclick="adminRedirect()" />
+		</div>
 	</body>
 </html>

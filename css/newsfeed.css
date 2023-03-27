@@ -317,3 +317,14 @@ body.experimental {
 	  background-color: #282828;
 	  color: white;
   }
+
+  .index{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 200px;
+  }
+
+  .index > input{
+	  margin: 1em;
+  }
