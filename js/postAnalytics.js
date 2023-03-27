@@ -146,7 +146,7 @@ class Analytics
 		if (action == "upload") {
 			data = {
 				participantID: this.#participantID,
-				postStats: this.getStatistics()
+				postsStats: this.getStatistics()
 			};
 		};
 

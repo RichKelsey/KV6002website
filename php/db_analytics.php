@@ -17,7 +17,7 @@ function handleaction()
 	case "upload": 
 		if (!isset($data["data"])) goto nodata;
 
-		$stats         = $data["data"]["postStats"];
+		$stats         = $data["data"]["postsStats"];
 		$participantID = $data["data"]["participantID"];
 
 		db_uploadAnalytics($stats, $participantID);
