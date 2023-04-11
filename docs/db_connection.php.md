@@ -64,7 +64,7 @@ failure.
 function db_query($query, $dbh): JSON
 ```
 
-Allows for a MYSQL query to be sent to the database and for it's response to be received and encoded to JSON data.
+Allows for a MYSQL query to be sent to the database and for its response to be received and encoded to JSON data.
 
 ### Parameters
 
@@ -93,7 +93,7 @@ during development.
 
 **dbh**
 
-- This function takes in a PDO instance as a handle to to the database.
+- This function takes in a PDO instance as a handle to the database.
 
 ### Return Values
 

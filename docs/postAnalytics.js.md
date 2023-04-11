@@ -41,7 +41,7 @@ Analytics.interfaceDB("upload");
 
 It is required that you at least call ``Analytics.storeStatistics()`` once
 before you upload to the database, as calling
-``Analytics.interfaceDB("upload")`` reads from from the session storage.
+``Analytics.interfaceDB("upload")`` reads from the session storage.
 
 ---
 
@@ -62,7 +62,7 @@ This function has no parameters.
 
 ### Return Values
 
-This function returns a boolean representing whether or not analyttics is
+This function returns a boolean representing whether or not analytics is
 ready.
 
 ## Analytics.update
@@ -76,7 +76,7 @@ This function gets collects the post elements on the page, updates their states
 updates post statistics based on the location of the post elements and updates
 inner HTML in a parent element with an ID of "responseText".
 
-Ideally this function is called in a repeatedly in a loop/at an interval.
+Ideally this function is called repeatedly in a loop/at an interval.
 
 ### Parameters
 

@@ -40,5 +40,5 @@ Expects participantID.
 
 ## Note
 
-There there are more internal functions that are yet to be documented, but
+There are more internal functions that are yet to be documented, but
 should be fairly straightforward.

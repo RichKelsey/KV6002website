@@ -10,7 +10,7 @@ posts, nesting them into the parent element.
 displayPosts(str parentElement, JSON posts): //no return
 ```
 This function takes a JSON array of post data, and calls
-[displayPost()](#displayPost) per post entry in the array.
+[displayPost()](#displayPost) per post-entry in the array.
 
 ### Parameters
 
@@ -53,7 +53,7 @@ No variables returned. Output is the post data displayed in the DOM.
 
 Output from the script is pure HTML placed directly into the DOM, specifically 
 one div per entry in the Post table, each containing all the info from said 
-entry. Each field in a row of the table has it's own element generated 
+entry. Each field in a row of the table has its own element generated 
 dynamically in the DOM. For example, the Username is placed inside a \<h3>. 
 
 ## displayPostExperimental()

@@ -12,7 +12,7 @@ The ``DEBUG`` constant can defined if un-commented at the top of
 //define("DEBUG", null);
 ```
 
-In addition , defining the ``NO_ECHO`` constant will suppress log echos if
+In addition, defining the ``NO_ECHO`` constant will suppress log echos if
 needed.
 
 ## Examples
@@ -81,7 +81,7 @@ This function doesn't return anything.
 ``log_print()`` may fail to create and write to the log file, depending on file
 system and web server user permissions.
 
-A work around is to manually create the ``php.log`` file manually, and changing
+A workaround is to manually create the ``php.log`` file manually, and changing
 the permissions.
 
 Example commands on a \*nix system would be:
